@@ -1,0 +1,7 @@
+name: BoneMeal
+version: '${version}'
+main: xiamomc.bonemeal.Bonemeal
+api-version: 1.19
+authors: [MATRIX-feather]
+description: Use Bone Meal on Sugar Canes and flowers!
+website: https://xiamomc.ink
