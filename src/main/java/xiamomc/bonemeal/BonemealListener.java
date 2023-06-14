@@ -1,17 +1,29 @@
 package xiamomc.bonemeal;
 
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.feature.CoralFeature;
+import net.minecraft.world.level.levelgen.feature.CoralTreeFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 public class BonemealListener implements Listener
 {
@@ -39,7 +51,7 @@ public class BonemealListener implements Listener
         if (item == null) return;
         if (item.getType() != Material.BONE_MEAL) return;
 
-        if (Bonemeal.VALID_FLOWERS.contains(material))
+        if (MaterialTypes.isSmallFlower(material))
         {
             // Spawn item for flowers
             world.dropItemNaturally(block.getLocation(), new ItemStack(material));
@@ -89,7 +101,10 @@ public class BonemealListener implements Listener
             else
                 return;
         }
-        else
+        else if (MaterialTypes.isCoral(material))
+        {
+            if (!useOnCoral(player, block)) return;
+        } else
         {
             // Not flower or sugar cane, return
             return;
@@ -112,5 +127,76 @@ public class BonemealListener implements Listener
 
         // Play sound
         world.playSound(location, Sound.ITEM_BONE_MEAL_USE, 1, 1);
+    }
+
+    private final CustomCoralFeature customCoralFeature = new CustomCoralFeature(NoneFeatureConfiguration.CODEC);
+
+    private boolean useOnCoral(Player player, Block clickedBlock)
+    {
+        // Check player and Level instance
+        if (!(player instanceof CraftPlayer craftPlayer)) return false;
+
+        var world = craftPlayer.getHandle().level();
+
+        if (!(world instanceof ServerLevel serverLevel)) return false;
+
+        var bukkitPos = clickedBlock.getLocation();
+        var blockLoc = new BlockPos(bukkitPos.getBlockX(), bukkitPos.getBlockY(), bukkitPos.getBlockZ());
+
+        // Check blocks
+        var blockBelow = craftPlayer.getWorld().getBlockAt(bukkitPos.clone().add(0, -1, 0));
+        if (!MaterialTypes.isCoralPlantable(blockBelow.getType())) return true;
+
+        // Get LevelStem
+        var logger = LoggerFactory.getLogger("Bonemeal");
+        Registry<LevelStem> dimensions = null;
+        try
+        {
+            dimensions = serverLevel.getServer().registryAccess()
+                    .registryOrThrow(Registries.LEVEL_STEM);
+        }
+        catch (Throwable t)
+        {
+            logger.error("Unable to place feature: %s".formatted(t.getLocalizedMessage()));
+            t.printStackTrace();
+        }
+
+        if (dimensions == null) return false;
+
+        var key = serverLevel.dimension().location();
+        LevelStem levelStem = dimensions.get(key);
+
+        if (levelStem == null)
+        {
+            logger.warn("Unable to place feature since we can't place feature at world '%s'"
+                    .formatted(serverLevel.dimension().location().toString()));
+
+            return false;
+        }
+
+        // 使用自定义的CoralFeature来允许我们指定要放置的类型
+        var material = clickedBlock.getType();
+        customCoralFeature.setCoralType(this.toBlockMaterial(material));
+
+        ChunkGenerator generator = levelStem.generator();
+        var configuration = NoneFeatureConfiguration.INSTANCE;
+
+        // Place feature
+        return customCoralFeature.place(configuration, serverLevel,
+                generator, RandomSource.create(), blockLoc);
+    }
+
+    @Nullable
+    private Material toBlockMaterial(Material input)
+    {
+        return switch (input)
+        {
+            case TUBE_CORAL -> Material.TUBE_CORAL_BLOCK;
+            case BRAIN_CORAL -> Material.BRAIN_CORAL_BLOCK;
+            case BUBBLE_CORAL -> Material.BUBBLE_CORAL_BLOCK;
+            case FIRE_CORAL -> Material.FIRE_CORAL_BLOCK;
+            case HORN_CORAL -> Material.HORN_CORAL_BLOCK;
+            default -> null;
+        };
     }
 }

@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'io.papermc.paperweight.userdev' version '1.5.5'
 }
 
 group = 'xiamomc'
@@ -7,6 +9,10 @@ version = '1.0.0'
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven {
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
     maven {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
@@ -18,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT"
+    paperweight.paperDevBundle "${project.property("minecraft_version")}"
 }
 
 def targetJavaVersion = 17
@@ -29,6 +35,10 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
+}
+
+tasks.build {
+    dependsOn(tasks.reobfJar)
 }
 
 tasks.withType(JavaCompile).configureEach {
