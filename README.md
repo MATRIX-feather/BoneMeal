@@ -4,19 +4,20 @@
 
 <p align="center">
 
-<h3> Use bone meal on sugar canes and flowers like Bedrock Edition </h3>
+<h3> Xiamo Experience Pack </h3>
 
- [![GH Actions](https://github.com/MATRIX-feather/bonemeal/actions/workflows/build.yml/badge.svg)](https://github.com/MATRIX-feather/bonemeal/actions)
- [![Latest Release](https://img.shields.io/github/release/MATRIX-feather/bonemeal.svg)](https://github.com/MATRIX-feather/bonemeal/releases/latest)
+ [![GH Actions](https://github.com/MATRIX-feather/xiamo-experience/actions/workflows/build.yml/badge.svg)](https://github.com/MATRIX-feather/xiamo-experience/actions)
+ [![Latest Release](https://img.shields.io/github/release/MATRIX-feather/xiamo-experience.svg)](https://github.com/MATRIX-feather/xiamo-experience/releases/latest)
 
 </p>
 
 ## Features
 - Allows you to duplicate flowers (dandelion, poppy, etc.) using bone meal
 - Allows using bone meal on sugar cane to make it grows taller
+- Make lava generates Cobbled Deepslate below y0
 
 ## Dependencies
-* A Spigot 1.19.3 ~ 1.19.4 server, 1.19~1.19.2 may support but haven't test yet.
+* A Paper 1.20.2 Server
 
 <!--
 ## bStats
