@@ -1,4 +1,4 @@
-package xiamomc.bonemeal;
+package xiamomc.bonemeal.features.bonemeal;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -7,23 +7,19 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.feature.CoralFeature;
-import net.minecraft.world.level.levelgen.feature.CoralTreeFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
+import org.bukkit.event.*;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.LoggerFactory;
+import xiamomc.bonemeal.MaterialTypes;
+import xiamomc.bonemeal.XiaMoExperience;
 
 public class BonemealListener implements Listener
 {
@@ -148,7 +144,7 @@ public class BonemealListener implements Listener
         if (!MaterialTypes.isCoralPlantable(blockBelow.getType())) return true;
 
         // Get LevelStem
-        var logger = LoggerFactory.getLogger("Bonemeal");
+        var logger = XiaMoExperience.getInstance().getSLF4JLogger();
         Registry<LevelStem> dimensions = null;
         try
         {
