@@ -54,8 +54,16 @@ public class DeepslateListener implements Listener
         if (pos.y() >= 0) return;
 
         var newState = e.getNewState();
-        if (newState.getType() == Material.COBBLESTONE && newState.getBlock().getType() == Material.LAVA)
+        if (newState.getBlock.getType() != Material.LAVA) return;
+
+        if (newState.getType() == Material.COBBLESTONE)
+        {
             newState.setType(Material.COBBLED_DEEPSLATE);
+        }
+        else if (newState.getType() == Material.STONE)
+        {
+            newState.setType(Material.DEEPSLATE);
+        }
     }
 
 }
