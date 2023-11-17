@@ -54,7 +54,7 @@ public class DeepslateListener implements Listener
         if (pos.y() >= 0) return;
 
         var newState = e.getNewState();
-        if (newState.getBlock.getType() != Material.LAVA) return;
+        if (newState.getBlock().getType() != Material.LAVA) return;
 
         if (newState.getType() == Material.COBBLESTONE)
         {
