@@ -8,8 +8,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.ShulkerBox;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -109,14 +111,31 @@ public class ShulkerListener implements Listener
                 net.kyori.adventure.sound.Sound.Source.PLAYER, 1, 1));
     }
 
+    private void closeAndSave(Player p)
+    {
+        var invView = p.getOpenInventory();
+
+        this.onInvClose(invView.getTopInventory());
+        this.onInvClose(invView.getBottomInventory());
+
+        p.closeInventory();
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e)
+    {
+        closeAndSave(e.getPlayer());
+    }
+
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e)
     {
-        var item = e.getItemDrop();
+        //玩家死亡后掉落
+        if (e.getPlayer().getHealth() == 0d)
+            return;
 
-        var stack = item.getItemStack();
-
-        var valuesContains = itemStackMap.values().stream().anyMatch(i -> i.getAlternative().isSimilar(stack));
+        var valuesContains = itemStackMap.values()
+                .stream().anyMatch(i -> i.getAlternative().isSimilar(e.getItemDrop().getItemStack()));
 
         if (valuesContains)
             e.setCancelled(true);
@@ -144,14 +163,6 @@ public class ShulkerListener implements Listener
     public void onDisable()
     {
         //不关闭打开的背包可能会导致物品复制
-        Bukkit.getOnlinePlayers().forEach( p ->
-        {
-            var invView = p.getOpenInventory();
-
-            this.onInvClose(invView.getTopInventory());
-            this.onInvClose(invView.getBottomInventory());
-
-            p.closeInventory();
-        });
+        Bukkit.getOnlinePlayers().forEach(this::closeAndSave);
     }
 }
