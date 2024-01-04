@@ -33,7 +33,7 @@ public class ShulkerListener implements Listener
         var player = e.getPlayer();
 
         //如果打开了别的盒子，那么不要处理
-        if (shulkerManager.getPlayerEntryMeta(player) != null)
+        if (shulkerManager.openingBox(player))
             return;
 
         if (shulkerManager.tryOpenBox(item, player, player.getInventory().getHeldItemSlot()))
@@ -73,7 +73,7 @@ public class ShulkerListener implements Listener
 
         var drop = e.getItemDrop().getItemStack();
 
-        if (drop.equals(entrySet.getKey().stack()))
+        if (drop.equals(entrySet.getValue().stack()))
             e.setCancelled(true);
     }
 

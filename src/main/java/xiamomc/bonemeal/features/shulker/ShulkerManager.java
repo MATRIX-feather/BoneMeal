@@ -48,13 +48,13 @@ public class ShulkerManager
         }
     }
 
-    private final Map<OpenMeta, Inventory> playerInventoryMap = new Object2ObjectArrayMap<>();
+    private final Map<Inventory, OpenMeta> playerInventoryMap = new Object2ObjectArrayMap<>();
 
     @Nullable
-    public Map.Entry<OpenMeta, Inventory> getPlayerEntryMeta(Player player)
+    public Map.Entry<Inventory, OpenMeta> getPlayerEntryMeta(Player player)
     {
         return playerInventoryMap.entrySet()
-                .stream().filter(set -> set.getKey().player() == player)
+                .stream().filter(set -> set.getValue().player() == player)
                 .findFirst().orElse(null);
     }
 
@@ -102,7 +102,7 @@ public class ShulkerManager
 
         var itemCopy = new ItemStack(itemStack);
 
-        playerInventoryMap.put(new OpenMeta(player, itemCopy, slot), inventory);
+        playerInventoryMap.put(inventory, new OpenMeta(player, itemCopy, slot));
 
         player.playSound(player, Sound.BLOCK_SHULKER_BOX_OPEN, 1, 1);
 
@@ -111,26 +111,14 @@ public class ShulkerManager
 
     public void closeBox(Player player)
     {
-        var entrySet = getPlayerEntryMeta(player);
-
-        if (entrySet == null) return;
-
         var currentInv = player.getOpenInventory().getTopInventory();
-        if (currentInv != entrySet.getValue())
-        {
-            //如果当前界面上测不是打开的盒子，则不要关闭界面
-            //logger.warn("Current opened inventory is not box, not closing inventory...");
-        }
-        else
-        {
-            //关闭此Inventory
-            player.closeInventory();
-        }
 
-        //todo: 只进行一次remove
-        playerInventoryMap.remove(entrySet.getKey());
+        var openMeta = playerInventoryMap.remove(currentInv);
 
-        var openMeta = entrySet.getKey();
+        if (openMeta == null) return;
+
+        //关闭此Inventory
+        player.closeInventory();
 
         var atomicItem = new AtomicReference<ItemStack>(null);
 
@@ -162,7 +150,7 @@ public class ShulkerManager
         var meta = (BlockStateMeta) boxItem.getItemMeta();
         var shulker = (ShulkerBox) meta.getBlockState();
 
-        shulker.getInventory().setContents(entrySet.getValue().getContents());
+        shulker.getInventory().setContents(currentInv.getContents());
         meta.setBlockState(shulker);
         boxItem.setItemMeta(meta);
 
