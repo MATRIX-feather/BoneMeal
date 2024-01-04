@@ -1,13 +1,7 @@
 package xiamomc.bonemeal.features.shulker;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.kyori.adventure.key.Key;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,18 +10,17 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import xiamomc.bonemeal.XiaMoExperience;
 
-import java.util.Map;
+import java.util.Objects;
 
 public class ShulkerListener implements Listener
 {
+    private final ShulkerManager shulkerManager = new ShulkerManager();
+
     @EventHandler
     public void onInteract(PlayerInteractEvent e)
     {
@@ -37,65 +30,17 @@ public class ShulkerListener implements Listener
 
         if (!e.getAction().isRightClick() || e.getClickedBlock() != null) return;
 
-        if (item.getItemMeta() instanceof BlockStateMeta blockStateMeta
-            && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox)
-        {
-            var inv = shulkerBox.getInventory();
+        var player = e.getPlayer();
 
-            itemStackMap.put(inv, ItemRecord.of(item));
+        //如果打开了别的盒子，那么不要处理
+        if (shulkerManager.getPlayerEntryMeta(player) != null)
+            return;
 
-            var player = e.getPlayer();
-
-            try
-            {
-                player.openInventory(inv);
-            }
-            catch (Throwable t)
-            {
-                logger.info("Failed to open inventory for player '%s': '%s'".formatted(player.getName(), t.getMessage()));
-
-                itemStackMap.remove(inv);
-            }
-
-            player.playSound(player, Sound.BLOCK_SHULKER_BOX_OPEN, 1, 1);
-
-            var hand = e.getHand();
-            if (hand != null)
-                player.swingHand(hand);
-        }
+        if (shulkerManager.tryOpenBox(item, player, player.getInventory().getHeldItemSlot()))
+            player.swingHand(Objects.requireNonNull(e.getHand()));
     }
 
     private final Logger logger = XiaMoExperience.getInstance().getSLF4JLogger();
-
-    private final Map<Inventory, ItemRecord> itemStackMap = new Object2ObjectArrayMap<>();
-
-    private static class ItemRecord
-    {
-        private final ItemStack bindingStack;
-
-        public ItemRecord(ItemStack bindingStack)
-        {
-            this.bindingStack = bindingStack;
-            bindingCopy = new ItemStack(bindingStack);
-        }
-
-        private ItemStack bindingCopy;
-
-        public ItemStack getAlternative()
-        {
-            if (bindingCopy != null)
-                return bindingCopy;
-
-            bindingCopy = new ItemStack(bindingStack);
-
-            return bindingCopy;
-        }
-
-        public static final ItemRecord of(ItemStack bindingStack)
-        {
-            return new ItemRecord(bindingStack);
-        }
-    }
 
     @EventHandler
     public void onInvClose(InventoryCloseEvent e)
@@ -103,28 +48,16 @@ public class ShulkerListener implements Listener
         var inv = e.getInventory();
         if (inv.getType() != InventoryType.SHULKER_BOX) return;
 
-        this.onInvClose(inv);
+        if (!(e.getPlayer() instanceof Player player))
+            return;
 
-        var player = e.getPlayer();
-        player.playSound(net.kyori.adventure.sound.Sound.sound(
-                Key.key("block.shulker_box.close"),
-                net.kyori.adventure.sound.Sound.Source.PLAYER, 1, 1));
-    }
-
-    private void closeAndSave(Player p)
-    {
-        var invView = p.getOpenInventory();
-
-        this.onInvClose(invView.getTopInventory());
-        this.onInvClose(invView.getBottomInventory());
-
-        p.closeInventory();
+        shulkerManager.closeBox(player);
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e)
     {
-        closeAndSave(e.getPlayer());
+        shulkerManager.closeBox(e.getPlayer());
     }
 
     @EventHandler
@@ -134,35 +67,19 @@ public class ShulkerListener implements Listener
         if (e.getPlayer().getHealth() == 0d)
             return;
 
-        var valuesContains = itemStackMap.values()
-                .stream().anyMatch(i -> i.getAlternative().isSimilar(e.getItemDrop().getItemStack()));
+        var entrySet = shulkerManager.getPlayerEntryMeta(e.getPlayer());
 
-        if (valuesContains)
+        if (entrySet == null) return;
+
+        var drop = e.getItemDrop().getItemStack();
+
+        if (drop.equals(entrySet.getKey().stack()))
             e.setCancelled(true);
-    }
-
-    private void onInvClose(Inventory closedInventory)
-    {
-        var matchedRec = itemStackMap.remove(closedInventory);
-
-        if (matchedRec == null) return;
-
-        var match = matchedRec.bindingStack;
-
-        if (!(match.getItemMeta() instanceof BlockStateMeta state))
-            return;
-
-        if (!(state.getBlockState() instanceof ShulkerBox shulkerBox))
-            return;
-
-        shulkerBox.getInventory().setContents(closedInventory.getContents());
-        state.setBlockState(shulkerBox);
-        match.setItemMeta(state);
     }
 
     public void onDisable()
     {
         //不关闭打开的背包可能会导致物品复制
-        Bukkit.getOnlinePlayers().forEach(this::closeAndSave);
+        Bukkit.getOnlinePlayers().forEach(shulkerManager::closeBox);
     }
 }
