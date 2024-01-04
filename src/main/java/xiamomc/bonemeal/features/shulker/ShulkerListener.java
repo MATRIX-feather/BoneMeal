@@ -40,8 +40,7 @@ public class ShulkerListener implements Listener
         if (item.getItemMeta() instanceof BlockStateMeta blockStateMeta
             && blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox)
         {
-            var inv = Bukkit.createInventory(shulkerBox.getInventory().getHolder(), InventoryType.SHULKER_BOX);
-            inv.setContents(shulkerBox.getInventory().getContents());
+            var inv = shulkerBox.getInventory();
 
             itemStackMap.put(inv, ItemRecord.of(item));
 
@@ -77,6 +76,7 @@ public class ShulkerListener implements Listener
         public ItemRecord(ItemStack bindingStack)
         {
             this.bindingStack = bindingStack;
+            bindingCopy = new ItemStack(bindingStack);
         }
 
         private ItemStack bindingCopy;
