@@ -72,15 +72,18 @@ public class ShulkerManager
      */
     public boolean tryOpenBox(ItemStack itemStack, Player player, int slot)
     {
+        if (!MaterialUtils.isShulkerBox(itemStack.getType()))
+            return false;
+
         if (!(itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta))
         {
-            logger.warn("ItemMeta is not a BlockStateMeta");
+            logger.warn("(%s) ItemMeta is not a BlockStateMeta: ".formatted(player.getName()));
             return false;
         }
 
         if (!(blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox))
         {
-            logger.warn("BlockStats is not a ShulkerBox");
+            logger.warn("(%s) BlockState is not a ShulkerBox".formatted(player.getName()));
             return false;
         }
 
