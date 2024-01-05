@@ -107,7 +107,7 @@ public class ShulkerManager
 
         playerInventoryMap.put(inventory, new OpenMeta(player, itemCopy, slot));
 
-        player.playSound(player, Sound.BLOCK_SHULKER_BOX_OPEN, 1, 1);
+        player.getWorld().playSound(player, Sound.BLOCK_SHULKER_BOX_OPEN, 0.7f, 1);
 
         return true;
     }
@@ -157,6 +157,6 @@ public class ShulkerManager
         meta.setBlockState(shulker);
         boxItem.setItemMeta(meta);
 
-        player.playSound(player, Sound.BLOCK_SHULKER_BOX_CLOSE, 1, 1);
+        player.getWorld().playSound(player, Sound.BLOCK_SHULKER_BOX_CLOSE, 0.7f, 1);
     }
 }
