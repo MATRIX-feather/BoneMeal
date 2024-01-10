@@ -69,7 +69,7 @@ public class BonemealListener implements Listener
 
         for (ItemStack i : dispenser.getInventory())
         {
-            if (i == null) return;
+            if (i == null) continue;
 
             if (i.getType() != Material.BONE_MEAL) continue;
 

@@ -15,6 +15,7 @@
 - Allows you to duplicate flowers (dandelion, poppy, etc.) using bone meal
 - Allows using bone meal on sugar cane to make it grows taller
 - Make lava generates Cobbled Deepslate below y0
+- Makes it possible to open shulker boxes on your hand without placing them down!
 
 ## Dependencies
 * A Paper 1.20.2 Server
