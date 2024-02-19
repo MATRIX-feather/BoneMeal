@@ -3,7 +3,7 @@
 -->
 
 <h3> Feather Experience </h3>
-<h4> Renewable corals, Deepslate farm, or something like these.</h4>
+<h4> Renewable corals, Deepslate farm, or something else.</h4>
 
 [![GH Actions](https://github.com/MATRIX-feather/FeatherExperience/actions/workflows/build.yml/badge.svg)](https://github.com/MATRIX-feather/FeatherExperience/actions)
 [![Latest Release](https://img.shields.io/github/release/MATRIX-feather/FeatherExperience.svg)](https://github.com/MATRIX-feather/FeatherExperience/releases/latest)
