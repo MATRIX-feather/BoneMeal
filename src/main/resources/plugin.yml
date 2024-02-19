@@ -1,7 +1,0 @@
-name: xiamo-experience
-version: '${version}'
-main: xyz.nifeather.fexperience
-api-version: 1.19
-authors: [MATRIX-feather]
-description: Use Bone Meal on Sugar Canes and flowers!
-website: https://xiamomc.ink

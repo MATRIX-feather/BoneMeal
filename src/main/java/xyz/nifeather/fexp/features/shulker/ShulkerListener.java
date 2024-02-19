@@ -12,17 +12,32 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
+import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigManager;
 
 import java.util.Objects;
 
-public class ShulkerListener implements Listener
+public class ShulkerListener extends FPluginObject implements Listener
 {
     private final ShulkerManager shulkerManager = new ShulkerManager();
+
+    private final Bindable<Boolean> enabled = new Bindable<>(false);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enabled, ConfigOption.FEAT_OPEN_SHULKERBOX);
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e)
     {
+        if (!enabled.get()) return;
+
         var item = e.getItem();
         if (item == null)
             return;
@@ -38,8 +53,6 @@ public class ShulkerListener implements Listener
         if (shulkerManager.tryOpenBox(item, player, player.getInventory().getHeldItemSlot()))
             player.swingHand(Objects.requireNonNull(e.getHand()));
     }
-
-    private final Logger logger = FeatherExperience.getInstance().getSLF4JLogger();
 
     @EventHandler
     public void onInvClose(InventoryCloseEvent e)

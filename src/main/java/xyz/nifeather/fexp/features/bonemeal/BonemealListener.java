@@ -1,7 +1,9 @@
 package xyz.nifeather.fexp.features.bonemeal;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.bukkit.block.Block;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;

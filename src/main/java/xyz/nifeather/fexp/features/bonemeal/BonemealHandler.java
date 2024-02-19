@@ -12,11 +12,28 @@ import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.MaterialTypes;
+import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigManager;
 
-public class BonemealHandler
+public class BonemealHandler extends FPluginObject
 {
+    private final Bindable<Boolean> enableFlower = new Bindable<>(false);
+    private final Bindable<Boolean> enableCoral = new Bindable<>(false);
+    private final Bindable<Boolean> enableSugarcane = new Bindable<>(false);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enableFlower, ConfigOption.FEAT_BONEMEAL_ON_FLOWER);
+        config.bind(enableCoral, ConfigOption.FEAT_BONEMEAL_ON_CORAL);
+        config.bind(enableSugarcane, ConfigOption.FEAT_BONEMEAL_ON_SUGARCANE);
+    }
+
     /**
      * @return 执行是否成功
      */
@@ -46,6 +63,8 @@ public class BonemealHandler
 
     private boolean useOnFlower(Block block)
     {
+        if (!enableFlower.get()) return false;
+
         var world = block.getWorld();
 
         // Spawn item for flowers
@@ -56,6 +75,8 @@ public class BonemealHandler
 
     private boolean useOnSugarcane(Block block)
     {
+        if (!enableSugarcane.get()) return false;
+
         var world = block.getWorld();
 
         // Check for total height
@@ -109,6 +130,8 @@ public class BonemealHandler
 
     private boolean useOnCoral(Block block)
     {
+        if (!enableCoral.get()) return false;
+
         var world = block.getWorld();
         var serverLevel = ((CraftBlock)block).getHandle().getMinecraftWorld();
 

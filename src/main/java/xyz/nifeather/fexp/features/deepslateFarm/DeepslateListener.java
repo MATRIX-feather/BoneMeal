@@ -5,8 +5,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFormEvent;
 import org.slf4j.LoggerFactory;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.FPluginObject;
+import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigManager;
 
-public class DeepslateListener implements Listener
+public class DeepslateListener extends FPluginObject implements Listener
 {
     /*
 
@@ -47,9 +52,20 @@ public class DeepslateListener implements Listener
         }
 
     */
+
+    private final Bindable<Boolean> enabled = new Bindable<>(false);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enabled, ConfigOption.FEAT_DEEPSLATE_FARM);
+    }
+
     @EventHandler
     public void onBlockForm(BlockFormEvent e)
     {
+        if (!enabled.get()) return;
+
         var pos = e.getBlock().getLocation();
         if (pos.y() >= 0) return;
 
