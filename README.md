@@ -2,23 +2,28 @@
 ![cover](https://raw.githubusercontent.com/XiaMoZhiShi/FeatherMorph/1.19.4/assets/cover.png)
 -->
 
-<p align="center">
+<h3> Feather Experience </h3>
+<h4> Renewable corals, Deepslate farm, or something like these.</h4>
 
-<h3> Xiamo Experience Pack </h3>
-
- [![GH Actions](https://github.com/MATRIX-feather/xiamo-experience/actions/workflows/build.yml/badge.svg)](https://github.com/MATRIX-feather/xiamo-experience/actions)
- [![Latest Release](https://img.shields.io/github/release/MATRIX-feather/xiamo-experience.svg)](https://github.com/MATRIX-feather/xiamo-experience/releases/latest)
-
-</p>
+[![GH Actions](https://github.com/MATRIX-feather/FeatherExperience/actions/workflows/build.yml/badge.svg)](https://github.com/MATRIX-feather/FeatherExperience/actions)
+[![Latest Release](https://img.shields.io/github/release/MATRIX-feather/FeatherExperience.svg)](https://github.com/MATRIX-feather/FeatherExperience/releases/latest)
 
 ## Features
-- Allows you to duplicate flowers (dandelion, poppy, etc.) using bone meal
-- Allows using bone meal on sugar cane to make it grows taller
-- Make lava generates Cobbled Deepslate below y0
-- Makes it possible to open shulker boxes on your hand without placing them down!
+- Some bone meal magic, like...
+    - Duplicate flowers (dandelion, poppy, etc.)
+    - Renewable corals
+    - Make sugar cane grows taller
+- Lava generates Cobbled Deepslate or Deepslate below y0
+- Open shulker boxes on your hand without placing them down!
 
 ## Dependencies
-* A Paper 1.20.2 Server
+* A Paper 1.20.4 Server
+
+## Build
+1. Clone or download this repo
+2. Open terminal at the root of the cloned/extracted directory
+3. Run `./gradlew build` (Or `.\gradlew.bat build` if you are using Windows)
+4. If success, head to `build/libs` and you will find the file there called `feather-experience-x.x.x.jar`
 
 <!--
 ## bStats
