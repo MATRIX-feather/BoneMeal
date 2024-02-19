@@ -1,4 +1,4 @@
-package xiamomc.bonemeal.features.shulker;
+package xyz.nifeather.fexp.features.shulker;
 
 import org.bukkit.Material;
 

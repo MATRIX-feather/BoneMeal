@@ -1,4 +1,4 @@
-package xiamomc.bonemeal.features.shulker;
+package xyz.nifeather.fexp.features.shulker;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.bukkit.Sound;
@@ -10,14 +10,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import xiamomc.bonemeal.XiaMoExperience;
+import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ShulkerManager
 {
-    private final Logger logger = XiaMoExperience.getInstance().getSLF4JLogger();
+    private final Logger logger = FeatherExperience.getInstance().getSLF4JLogger();
 
     public static class OpenMeta
     {

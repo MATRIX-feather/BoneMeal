@@ -1,4 +1,4 @@
-package xiamomc.bonemeal.features.bonemeal;
+package xyz.nifeather.fexp.features.bonemeal;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;

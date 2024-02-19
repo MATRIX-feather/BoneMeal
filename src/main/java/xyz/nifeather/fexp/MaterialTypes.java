@@ -1,4 +1,4 @@
-package xiamomc.bonemeal;
+package xyz.nifeather.fexp;
 
 import org.bukkit.Material;
 

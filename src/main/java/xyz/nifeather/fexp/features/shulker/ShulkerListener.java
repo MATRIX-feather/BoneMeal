@@ -1,6 +1,5 @@
-package xiamomc.bonemeal.features.shulker;
+package xyz.nifeather.fexp.features.shulker;
 
-import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
-import xiamomc.bonemeal.XiaMoExperience;
+import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ public class ShulkerListener implements Listener
             player.swingHand(Objects.requireNonNull(e.getHand()));
     }
 
-    private final Logger logger = XiaMoExperience.getInstance().getSLF4JLogger();
+    private final Logger logger = FeatherExperience.getInstance().getSLF4JLogger();
 
     @EventHandler
     public void onInvClose(InventoryCloseEvent e)

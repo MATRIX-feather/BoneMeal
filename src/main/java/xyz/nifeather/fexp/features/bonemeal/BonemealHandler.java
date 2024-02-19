@@ -1,4 +1,4 @@
-package xiamomc.bonemeal.features.bonemeal;
+package xyz.nifeather.fexp.features.bonemeal;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -12,8 +12,8 @@ import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import xiamomc.bonemeal.MaterialTypes;
-import xiamomc.bonemeal.XiaMoExperience;
+import xyz.nifeather.fexp.FeatherExperience;
+import xyz.nifeather.fexp.MaterialTypes;
 
 public class BonemealHandler
 {
@@ -120,7 +120,7 @@ public class BonemealHandler
         if (!MaterialTypes.isCoralPlantable(blockBelow.getType())) return false;
 
         // Get LevelStem
-        var logger = XiaMoExperience.getInstance().getSLF4JLogger();
+        var logger = FeatherExperience.getInstance().getSLF4JLogger();
         Registry<LevelStem> dimensionRegistry = null;
 
         try

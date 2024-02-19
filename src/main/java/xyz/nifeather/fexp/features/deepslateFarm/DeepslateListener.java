@@ -1,4 +1,4 @@
-package xiamomc.bonemeal.features.deepslateFarm;
+package xyz.nifeather.fexp.features.deepslateFarm;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,7 @@ public class DeepslateListener implements Listener
 
         public BonemealListener()
         {
-            RegisteredListener registeredListener = new RegisteredListener(this, (listener, event) -> onEvent(event), EventPriority.NORMAL, XiaMoExperience.getPlugin(XiaMoExperience.class), false);
+            RegisteredListener registeredListener = new RegisteredListener(this, (listener, event) -> onEvent(event), EventPriority.NORMAL, FeatherExperience.getPlugin(FeatherExperience.class), false);
             for (HandlerList handler : HandlerList.getHandlerLists())
                 handler.register(registeredListener);
         }
@@ -42,7 +42,7 @@ public class DeepslateListener implements Listener
                 return;
             }
 
-            var logger = LoggerFactory.getLogger("XiaMoExperience");
+            var logger = LoggerFactory.getLogger("FeatherExperience");
             logger.info("Event! " + event);
         }
 

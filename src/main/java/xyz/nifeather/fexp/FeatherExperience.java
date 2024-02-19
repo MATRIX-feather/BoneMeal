@@ -1,21 +1,28 @@
-package xiamomc.bonemeal;
+package xyz.nifeather.fexp;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import xiamomc.bonemeal.features.bonemeal.BonemealListener;
-import xiamomc.bonemeal.features.deepslateFarm.DeepslateListener;
-import xiamomc.bonemeal.features.shulker.ShulkerListener;
+import xiamomc.pluginbase.XiaMoJavaPlugin;
+import xyz.nifeather.fexp.features.bonemeal.BonemealListener;
+import xyz.nifeather.fexp.features.deepslateFarm.DeepslateListener;
+import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 
-public final class XiaMoExperience extends JavaPlugin
+public final class FeatherExperience extends XiaMoJavaPlugin
 {
-    public static XiaMoExperience getInstance()
+    public static FeatherExperience getInstance()
     {
         return instance;
     }
 
-    private static XiaMoExperience instance;
+    private static FeatherExperience instance;
 
-    public XiaMoExperience()
+    @Override
+    public String getNameSpace()
+    {
+        return "fexp";
+    }
+
+    public FeatherExperience()
     {
         instance = this;
     }
