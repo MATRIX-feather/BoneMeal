@@ -10,7 +10,7 @@ import xiamomc.pluginbase.Managers.DependencyManager;
 import xiamomc.pluginbase.Messages.FormattableMessage;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 
 public class MessageUtils extends FPluginObject
@@ -41,7 +41,7 @@ public class MessageUtils extends FPluginObject
         for (var cc : c)
             finalComponent = finalComponent.append(cc);
 
-        var prefix = new FormattableMessage(plugin, config.getOrDefault(String.class, ConfigOption.MESSAGE_PREFIX));
+        var prefix = new FormattableMessage(plugin, config.getOrDefault(String.class, FConfigOptions.MESSAGE_PREFIX));
 
         return prefix
                 .withLocale(getLocale(sender))
@@ -96,8 +96,8 @@ public class MessageUtils extends FPluginObject
 
         if (config != null)
         {
-            config.bind(serverLocale, ConfigOption.LANGUAGE_CODE);
-            config.bind(singleLanguage, ConfigOption.SINGLE_LANGUAGE);
+            config.bind(serverLocale, FConfigOptions.LANGUAGE_CODE);
+            config.bind(singleLanguage, FConfigOptions.SINGLE_LANGUAGE);
         }
 
         configManager = config;

@@ -11,7 +11,7 @@ import xiamomc.pluginbase.Bindables.Bindable;
 import xiamomc.pluginbase.Messages.IStrings;
 import xiamomc.pluginbase.Messages.MessageStore;
 import xyz.nifeather.fexp.FeatherExperience;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 
 import java.io.File;
@@ -74,7 +74,7 @@ public class FMessageStore extends MessageStore<FeatherExperience>
             }
         }
 
-        config.bind(serverLanguage, ConfigOption.LANGUAGE_CODE);
+        config.bind(serverLanguage, FConfigOptions.LANGUAGE_CODE);
     }
 
     private FMessageSubStore getOrCreateSubStore(String locale)

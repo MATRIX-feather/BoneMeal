@@ -1,26 +1,10 @@
 package xyz.nifeather.fexp.features.bonemeal;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Lidded;
-import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
-import xiamomc.pluginbase.Annotations.Initializer;
-import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
-import xyz.nifeather.fexp.FeatherExperience;
-import xyz.nifeather.fexp.MaterialTypes;
-import xyz.nifeather.fexp.config.ConfigOption;
-import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.handlers.CoralHandler;
 import xyz.nifeather.fexp.features.bonemeal.handlers.FlowerHandler;
 import xyz.nifeather.fexp.features.bonemeal.handlers.SugarcaneHandler;

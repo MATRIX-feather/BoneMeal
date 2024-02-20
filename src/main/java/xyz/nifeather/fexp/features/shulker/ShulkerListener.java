@@ -9,14 +9,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.slf4j.Logger;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
-import xyz.nifeather.fexp.FeatherExperience;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 
 import java.util.Objects;
@@ -30,7 +26,7 @@ public class ShulkerListener extends FPluginObject implements Listener
     @Initializer
     private void load(FConfigManager config)
     {
-        config.bind(enabled, ConfigOption.FEAT_OPEN_SHULKERBOX);
+        config.bind(enabled, FConfigOptions.FEAT_OPEN_SHULKERBOX);
     }
 
     @EventHandler

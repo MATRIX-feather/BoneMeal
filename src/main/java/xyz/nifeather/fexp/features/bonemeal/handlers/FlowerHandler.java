@@ -6,7 +6,7 @@ import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.MaterialTypes;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.IBonemealHandler;
 
@@ -47,6 +47,6 @@ public class FlowerHandler extends FPluginObject implements IBonemealHandler
     @Initializer
     private void load(FConfigManager config)
     {
-        config.bind(enableFlower, ConfigOption.FEAT_BONEMEAL_ON_FLOWER);
+        config.bind(enableFlower, FConfigOptions.FEAT_BONEMEAL_ON_FLOWER);
     }
 }

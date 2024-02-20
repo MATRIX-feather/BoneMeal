@@ -5,13 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Resolved;
 import xiamomc.pluginbase.Command.ISubCommand;
+import xiamomc.pluginbase.Configuration.ConfigOption;
 import xiamomc.pluginbase.Exceptions.NullDependencyException;
 import xiamomc.pluginbase.Messages.FormattableMessage;
 import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.commands.builder.CommandBuilder;
-import xyz.nifeather.fexp.config.ConfigOption;
 import xyz.nifeather.fexp.config.FConfigManager;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.messages.strings.CommandStrings;
 import xyz.nifeather.fexp.messages.strings.TypesString;
 import xyz.nifeather.fexp.utilities.BindableUtils;
@@ -33,16 +34,16 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
     public OptionSubCommand()
     {
-        subCommands.add(getToggle("bonemeal.coral", ConfigOption.FEAT_BONEMEAL_ON_CORAL));
-        subCommands.add(getToggle("bonemeal.flower", ConfigOption.FEAT_BONEMEAL_ON_FLOWER));
-        subCommands.add(getToggle("bonemeal.sugarcane", ConfigOption.FEAT_BONEMEAL_ON_SUGARCANE));
+        subCommands.add(getToggle("bonemeal.coral", FConfigOptions.FEAT_BONEMEAL_ON_CORAL));
+        subCommands.add(getToggle("bonemeal.flower", FConfigOptions.FEAT_BONEMEAL_ON_FLOWER));
+        subCommands.add(getToggle("bonemeal.sugarcane", FConfigOptions.FEAT_BONEMEAL_ON_SUGARCANE));
 
-        subCommands.add(getToggle("shulkerbox.open", ConfigOption.FEAT_OPEN_SHULKERBOX));
+        subCommands.add(getToggle("shulkerbox.open", FConfigOptions.FEAT_OPEN_SHULKERBOX));
 
-        subCommands.add(getToggle("deepslate.farm", ConfigOption.FEAT_DEEPSLATE_FARM));
+        subCommands.add(getToggle("deepslate.farm", FConfigOptions.FEAT_DEEPSLATE_FARM));
     }
 
-    private <T> ISubCommand getGeneric(String name, ConfigOption option,
+    private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
                                        @Nullable FormattableMessage displayName, Class<T> targetClass,
                                        Function<String, T> func, String typeName)
     {
@@ -50,7 +51,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                 displayName, targetClass, func, new FormattableMessage(plugin, typeName));
     }
 
-    private ISubCommand getList(String optionName, ConfigOption option,
+    private ISubCommand getList(String optionName, ConfigOption<?> option,
                                 @Nullable FormattableMessage displayName)
     {
         var targetDisplay = displayName == null ? new FormattableMessage(plugin, optionName) : displayName;
@@ -159,7 +160,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                 .buildAll().get(0);
     }
 
-    private <T> ISubCommand getGeneric(String name, ConfigOption option,
+    private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
                                        @Nullable FormattableMessage displayName, Class<T> targetClass,
                                        Function<String, T> func, FormattableMessage typeName)
     {
@@ -212,27 +213,27 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                 .buildAll().get(0);
     }
 
-    private ISubCommand getDouble(String name, ConfigOption option, @Nullable FormattableMessage displayName)
+    private ISubCommand getDouble(String name, ConfigOption<Double> option, @Nullable FormattableMessage displayName)
     {
         return getGeneric(name, option, displayName, Double.class, Double::parseDouble, TypesString.typeDouble());
     }
 
-    private ISubCommand getInteger(String name, ConfigOption option)
+    private ISubCommand getInteger(String name, ConfigOption<Integer> option)
     {
         return getInteger(name, option, null);
     }
 
-    private ISubCommand getInteger(String name, ConfigOption option, @Nullable FormattableMessage displayName)
+    private ISubCommand getInteger(String name, ConfigOption<Integer> option, @Nullable FormattableMessage displayName)
     {
         return getGeneric(name, option, displayName, Integer.class, Integer::parseInt, TypesString.typeInteger());
     }
 
-    private ISubCommand getToggle(String name, ConfigOption option)
+    private ISubCommand getToggle(String name, ConfigOption<Boolean> option)
     {
         return getToggle(name, option, null);
     }
 
-    private ISubCommand getToggle(String name, ConfigOption option, @Nullable FormattableMessage displayName)
+    private ISubCommand getToggle(String name, ConfigOption<Boolean> option, @Nullable FormattableMessage displayName)
     {
         return getGeneric(name, option, displayName, Boolean.class, this::parseBoolean, "true/false");
     }

@@ -2,12 +2,10 @@ package xyz.nifeather.fexp.features.bonemeal.handlers;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
-import xyz.nifeather.fexp.MaterialTypes;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.IBonemealHandler;
 
@@ -87,6 +85,6 @@ public class SugarcaneHandler extends FPluginObject implements IBonemealHandler
     @Initializer
     private void load(FConfigManager config)
     {
-        config.bind(enableSugarcane, ConfigOption.FEAT_BONEMEAL_ON_SUGARCANE);
+        config.bind(enableSugarcane, FConfigOptions.FEAT_BONEMEAL_ON_SUGARCANE);
     }
 }

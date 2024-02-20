@@ -10,14 +10,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.MaterialTypes;
-import xyz.nifeather.fexp.config.ConfigOption;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.CustomCoralFeature;
 import xyz.nifeather.fexp.features.bonemeal.IBonemealHandler;
@@ -122,6 +121,6 @@ public class CoralHandler extends FPluginObject implements IBonemealHandler
     @Initializer
     private void load(FConfigManager config)
     {
-        config.bind(enableCoral, ConfigOption.FEAT_BONEMEAL_ON_CORAL);
+        config.bind(enableCoral, FConfigOptions.FEAT_BONEMEAL_ON_CORAL);
     }
 }
