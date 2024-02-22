@@ -77,7 +77,7 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
 
         for (ISubCommand cmd : cmdList)
         {
-            allSuccess = registerRange(cmd) && allSuccess;
+            allSuccess = register(cmd) && allSuccess;
         }
 
         return allSuccess;
@@ -91,6 +91,6 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
     @Initializer
     private void load()
     {
-        register(new OptionSubCommand());
+        registerRange(new OptionSubCommand(), new ReloadSubCommand());
     }
 }

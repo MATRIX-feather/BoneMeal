@@ -1,0 +1,37 @@
+# FeatherExperience plugin options
+root:
+
+  # The message pattern used for this plugin to display messages for players
+  message_pattern: '[FExp] <message>'
+
+  # Language
+  language: en_us
+
+  # Disable multi-language support?
+  single_language: false
+
+  # Features options
+  features:
+    # Bone meal options
+    bone_meal:
+      # Should we allow using bone meal on flowers?
+      flower: true
+
+      # Enable renewable corals?
+      coral: true
+
+      # Allow using bone meal on sugarcane?
+      sugarcane: true
+
+    # Deepslate options
+    deepslate:
+      # Enable deepslate farm?
+      farm: true
+
+    # Shulker box options
+    shulkerbox:
+      # Allow players open shulker box on their hand without placing it down?
+      open: true
+
+  # Do not touch unless you know what you're doing!
+  version: 1

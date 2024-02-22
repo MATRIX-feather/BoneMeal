@@ -253,7 +253,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
     @Override
     public String getPermissionRequirement()
     {
-        return "xiamomc.morph.toggle";
+        return CommonPermissions.optionCommand;
     }
 
     @Override

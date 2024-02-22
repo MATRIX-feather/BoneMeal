@@ -10,17 +10,17 @@ import java.util.List;
 
 public class FConfigOptions
 {
-    public static final ConfigOption<String> MESSAGE_PREFIX = new ConfigOption<>(ConfigNode.create().append("message_pattern"), "<message>");
-    public static final ConfigOption<String> LANGUAGE_CODE = new ConfigOption<>(ConfigNode.create().append("language"), "en_US");
+    public static final ConfigOption<String> MESSAGE_PREFIX = new ConfigOption<>(ConfigNode.create().append("message_pattern"), "[FExp] <message>");
+    public static final ConfigOption<String> LANGUAGE_CODE = new ConfigOption<>(ConfigNode.create().append("language"), "en_us");
     public static final ConfigOption<Boolean> SINGLE_LANGUAGE = new ConfigOption<>(ConfigNode.create().append("single_language"), false);
 
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_CORAL = new ConfigOption<>(featureBonemealNode().append("coral"), true);
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_FLOWER = new ConfigOption<>(featureBonemealNode().append("flower"), true);
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_SUGARCANE = new ConfigOption<>(featureBonemealNode().append("sugarcane"), true);
 
-    public static final ConfigOption<Boolean> FEAT_OPEN_SHULKERBOX = new ConfigOption<>(featureNode().append("shulkerbox.open"), true);
+    public static final ConfigOption<Boolean> FEAT_OPEN_SHULKERBOX = new ConfigOption<>(featureNode().append("shulkerbox").append("open"), true);
 
-    public static final ConfigOption<Boolean> FEAT_DEEPSLATE_FARM = new ConfigOption<>(featureNode().append("deepslate.farm"), true);
+    public static final ConfigOption<Boolean> FEAT_DEEPSLATE_FARM = new ConfigOption<>(featureNode().append("deepslate").append("farm"), true);
 
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
@@ -52,6 +52,6 @@ public class FConfigOptions
 
     private static ConfigNode featureBonemealNode()
     {
-        return featureNode().append("features");
+        return featureNode().append("bone_meal");
     }
 }
