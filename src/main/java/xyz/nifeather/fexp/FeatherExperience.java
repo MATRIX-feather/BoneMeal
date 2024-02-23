@@ -8,6 +8,7 @@ import xiamomc.pluginbase.XiaMoJavaPlugin;
 import xyz.nifeather.fexp.commands.FCommandHelper;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.BonemealListener;
+import xyz.nifeather.fexp.features.bossbar.BossbarListener;
 import xyz.nifeather.fexp.features.deepslateFarm.DeepslateListener;
 import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.listener.TabCompleteListener;
@@ -49,6 +50,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new BonemealListener(), this);
         pluginManager.registerEvents(new DeepslateListener(), this);
         pluginManager.registerEvents(shulkerListener = new ShulkerListener(), this);
+        pluginManager.registerEvents(new BossbarListener(), this);
 
         pluginManager.registerEvents(new TabCompleteListener(), this);
 

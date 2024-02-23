@@ -50,7 +50,7 @@ public class FConfigManager extends PluginConfigManager
         super.reload();
 
         //更新配置
-        int targetVersion = 1;
+        int targetVersion = 2;
 
         var configVersion = getOrDefault(Integer.class, FConfigOptions.VERSION);
 
@@ -100,7 +100,7 @@ public class FConfigManager extends PluginConfigManager
             //region Migrate
             //endregion Migrate
 
-            newConfig.set(FConfigOptions.VERSION.toString(), targetVersion);
+            newConfig.set(FConfigOptions.VERSION.node().toString(), targetVersion);
 
             plugin.saveConfig();
             reload();

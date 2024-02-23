@@ -33,5 +33,13 @@ root:
       # Allow players open shulker box on their hand without placing it down?
       open: true
 
+    # Bossbar options
+    bossbar:
+      # Show bossbar for Warden?
+      warden: true
+
+      # Show Warden's anger level on the bossbar?
+      warden_show_anger: false
+
   # Do not touch unless you know what you're doing!
-  version: 1
+  version: 2

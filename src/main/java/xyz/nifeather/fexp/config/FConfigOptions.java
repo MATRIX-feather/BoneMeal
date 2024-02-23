@@ -22,6 +22,9 @@ public class FConfigOptions
 
     public static final ConfigOption<Boolean> FEAT_DEEPSLATE_FARM = new ConfigOption<>(featureNode().append("deepslate").append("farm"), true);
 
+    public static final ConfigOption<Boolean> WARDEN_BOSSBAR = new ConfigOption<>(featureNode().append("bossbar").append("warden"), true);
+    public static final ConfigOption<Boolean> WARDEN_BOSSBAR_SHOW_ANGER = new ConfigOption<>(featureNode().append("bossbar").append("warden_show_anger"), false);
+
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
     public static List<ConfigOption<?>> values()

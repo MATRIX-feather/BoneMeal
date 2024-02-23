@@ -41,6 +41,9 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getToggle("shulkerbox.open", FConfigOptions.FEAT_OPEN_SHULKERBOX));
 
         subCommands.add(getToggle("deepslate.farm", FConfigOptions.FEAT_DEEPSLATE_FARM));
+
+        subCommands.add(getToggle("bossbar.warden", FConfigOptions.WARDEN_BOSSBAR));
+        subCommands.add(getToggle("bossbar.warden_show_anger", FConfigOptions.WARDEN_BOSSBAR_SHOW_ANGER));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
