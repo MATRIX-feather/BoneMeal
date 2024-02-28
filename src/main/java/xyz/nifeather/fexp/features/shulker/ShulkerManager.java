@@ -1,10 +1,14 @@
 package xyz.nifeather.fexp.features.shulker;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ShulkerManager
@@ -90,7 +95,17 @@ public class ShulkerManager
         if (getPlayerEntryMeta(player) != null)
             throw new RuntimeException("Already opened another shulker box!");
 
-        var inventory = shulkerBox.getInventory();
+        var shulkerName = itemStack.getItemMeta().displayName() != null
+                ? itemStack.getItemMeta().displayName()
+                : Component.translatable(Objects.requireNonNull(Material.SHULKER_BOX.getItemTranslationKey(), "?"));
+
+        // Using `shulkerBox.getInventory()` directly will cause Folia to error
+        var inventory = Bukkit.createInventory(
+                shulkerBox.getInventory().getHolder(),
+                InventoryType.SHULKER_BOX,
+                Objects.requireNonNull(shulkerName, "???"));
+
+        inventory.setContents(shulkerBox.getInventory().getContents());
 
         try
         {

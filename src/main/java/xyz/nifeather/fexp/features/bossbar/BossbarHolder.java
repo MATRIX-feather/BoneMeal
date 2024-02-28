@@ -4,12 +4,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Warden;
+import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
@@ -28,28 +27,32 @@ public class BossbarHolder extends FPluginObject
         this.bindingEntity = entity;
     }
 
+    @Nullable
     private BossBar bindingBossbar;
 
     @Initializer
     private void load(FConfigManager config)
     {
-        this.bindingBossbar = BossBar.bossBar(
-                bindingEntity.name(),
-                (float) (bindingEntity.getHealth() / bindingEntity.getMaxHealth()),
-                BossBar.Color.BLUE,
-                BossBar.Overlay.PROGRESS
-        );
+        this.scheduleOn(bindingEntity, () ->
+        {
+            this.bindingBossbar = BossBar.bossBar(
+                    bindingEntity.name(),
+                    (float) (bindingEntity.getHealth() / bindingEntity.getMaxHealth()),
+                    BossBar.Color.BLUE,
+                    BossBar.Overlay.PROGRESS
+            );
+        });
 
         config.bind(enableBossbar, FConfigOptions.WARDEN_BOSSBAR);
         config.bind(wardenBossbarShowAnger, FConfigOptions.WARDEN_BOSSBAR_SHOW_ANGER);
 
         enableBossbar.onValueChanged((o, n) ->
         {
-            if (!n)
+            if (!n && bindingBossbar != null)
                 bindingEntity.getWorld().getPlayers().forEach(p -> p.hideBossBar(bindingBossbar));
         });
 
-        this.addSchedule(this::update);
+        this.scheduleOnRegion(bindingEntity, this::update);
     }
 
     private final Bindable<Boolean> enableBossbar = new Bindable<>(false);
@@ -58,9 +61,9 @@ public class BossbarHolder extends FPluginObject
     private void update()
     {
         if (this.disposed.get()) return;
-        this.addSchedule(this::update);
+        this.scheduleOnRegion(bindingEntity, this::update);
 
-        if (!enableBossbar.get()) return;
+        if (!enableBossbar.get() || bindingBossbar == null) return;
 
         var percent = (float) (bindingEntity.getHealth() / bindingEntity.getMaxHealth());
         bindingBossbar.progress(percent);
@@ -110,11 +113,14 @@ public class BossbarHolder extends FPluginObject
 
     public void dispose()
     {
-        this.bindingBossbar.viewers().forEach(bossBarViewer ->
+        if (this.bindingBossbar != null)
         {
-            if (bossBarViewer instanceof Audience audience)
-                audience.hideBossBar(this.bindingBossbar);
-        });
+            this.bindingBossbar.viewers().forEach(bossBarViewer ->
+            {
+                if (bossBarViewer instanceof Audience audience)
+                    audience.hideBossBar(this.bindingBossbar);
+            });
+        }
 
         wardenBossbarShowAnger.unBindAll();
         enableBossbar.unBindAll();

@@ -72,4 +72,16 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         if (shulkerListener != null)
             shulkerListener.onDisable();
     }
+
+    @Override
+    public void startMainLoop(Runnable r)
+    {
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, o -> r.run(), 1, 1);
+    }
+
+    @Override
+    public void runAsync(Runnable r)
+    {
+        Bukkit.getAsyncScheduler().runNow(this, o -> r.run());
+    }
 }
