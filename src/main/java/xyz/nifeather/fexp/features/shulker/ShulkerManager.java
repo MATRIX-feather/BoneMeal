@@ -93,7 +93,10 @@ public class ShulkerManager
         }
 
         if (getPlayerEntryMeta(player) != null)
-            throw new RuntimeException("Already opened another shulker box!");
+        {
+            logger.error("Already opened another shulker box!");
+            return false;
+        }
 
         var shulkerName = itemStack.getItemMeta().displayName() != null
                 ? itemStack.getItemMeta().displayName()
@@ -160,8 +163,10 @@ public class ShulkerManager
 
         if (boxItem == null)
         {
+            logger.error("- x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x -");
             logger.error("BINDING STACK DISAPPEARED FROM PLAYER '" + player.getName() + "'!");
             logger.error("THE CONTENT OF THE BOX IS NOT SAVED, A DUPE GLITCH MAY OCCUR!");
+            logger.error("- x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x - x -");
             return;
         }
 

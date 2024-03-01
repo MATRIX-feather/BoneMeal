@@ -95,11 +95,11 @@ bukkit {
     val permissionRoot = "fexp."
 
     permissions {
-        register(permissionRoot + "use")
-    }
+        register(permissionRoot + "use").get().default = BukkitPluginDescription.Permission.Default.TRUE;
 
-    permissions.forEach {
-            permission -> permission.default = BukkitPluginDescription.Permission.Default.TRUE
+        register(permissionRoot + "cmd").get().default = BukkitPluginDescription.Permission.Default.OP;
+        register(permissionRoot + "cmd.option").get().default = BukkitPluginDescription.Permission.Default.OP;
+        register(permissionRoot + "cmd.reload").get().default = BukkitPluginDescription.Permission.Default.OP;
     }
 }
 
