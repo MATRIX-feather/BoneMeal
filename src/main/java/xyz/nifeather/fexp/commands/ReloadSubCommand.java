@@ -47,6 +47,6 @@ public class ReloadSubCommand extends FPluginObject implements ISubCommand
 
         sender.sendMessage(MessageUtils.prefixes(sender, "Done."));
 
-        return ISubCommand.super.onCommand(sender, args);
+        return true;
     }
 }
