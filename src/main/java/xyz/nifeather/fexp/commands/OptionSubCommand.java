@@ -44,6 +44,8 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
         subCommands.add(getToggle("bossbar.warden", FConfigOptions.WARDEN_BOSSBAR));
         subCommands.add(getToggle("bossbar.warden_show_anger", FConfigOptions.WARDEN_BOSSBAR_SHOW_ANGER));
+
+        subCommands.add(getToggle("save_tridents.enabled", FConfigOptions.TRIDENT));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,

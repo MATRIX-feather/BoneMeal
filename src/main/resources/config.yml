@@ -41,5 +41,10 @@ root:
       # Show Warden's anger level on the bossbar?
       warden_show_anger: false
 
+    # Save tridents from the void
+    save_tridents_from_void:
+      # Enable this feature?
+      enabled: true
+
   # Do not touch unless you know what you're doing!
-  version: 2
+  version: 3

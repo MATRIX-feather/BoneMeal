@@ -25,6 +25,8 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> WARDEN_BOSSBAR = new ConfigOption<>(featureNode().append("bossbar").append("warden"), true);
     public static final ConfigOption<Boolean> WARDEN_BOSSBAR_SHOW_ANGER = new ConfigOption<>(featureNode().append("bossbar").append("warden_show_anger"), false);
 
+    public static final ConfigOption<Boolean> TRIDENT = new ConfigOption<>(featureNode().append("save_tridents_from_void").append("enabled"), true);
+
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
     public static List<ConfigOption<?>> values()

@@ -15,6 +15,7 @@
     - Make sugar cane grows taller
 - Lava generates Cobbled Deepslate or Deepslate below y0
 - Open shulker boxes on your hand without placing them down!
+- Save tridents thrown to the void (!!! Requires Loyalty enchantment !!!)
 
 ## Dependencies
 * A Paper 1.20.4 Server
