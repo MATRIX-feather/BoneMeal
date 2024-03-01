@@ -14,6 +14,7 @@ import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.commands.builder.CommandBuilder;
+import xyz.nifeather.fexp.messages.strings.CommandStrings;
 import xyz.nifeather.fexp.utilities.MessageUtils;
 
 import java.util.Arrays;
@@ -59,8 +60,7 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
         return FeatherExperience.namespace();
     }
 
-
-    private List<ISubCommand> subCommands = new ObjectArrayList<>();
+    private final List<ISubCommand> subCommands = new ObjectArrayList<>();
 
     public boolean register(ISubCommand cmd)
     {
@@ -92,5 +92,16 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
     private void load()
     {
         registerRange(new OptionSubCommand(), new ReloadSubCommand());
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
+    {
+        var result = super.onCommand(sender, command, label, args);
+
+        if (!result)
+            sender.sendMessage(MessageUtils.prefixes(sender, CommandStrings.commandNotFoundString()));
+
+        return true;
     }
 }

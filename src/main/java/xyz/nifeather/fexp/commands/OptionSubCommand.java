@@ -51,7 +51,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                                        Function<String, T> func, String typeName)
     {
         return getGeneric(name, option,
-                displayName, targetClass, func, new FormattableMessage(plugin, typeName));
+                displayName, targetClass, func, new FormattableMessage(plugin, typeName), (args) -> List.of());
     }
 
     private ISubCommand getList(String optionName, ConfigOption<?> option,
@@ -64,6 +64,10 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         return CommandBuilder.builder().startNew()
                 .name(optionName)
                 .permission(CommonPermissions.optionCommand)
+                .onFilter(args ->
+                {
+                    return List.of();
+                })
                 .executes((sender, args) ->
                 {
                     if (args.isEmpty())
@@ -165,13 +169,18 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
                                        @Nullable FormattableMessage displayName, Class<T> targetClass,
-                                       Function<String, T> func, FormattableMessage typeName)
+                                       Function<String, T> func, FormattableMessage typeName,
+                                       Function<List<String>, List<String>> filterFunc)
     {
         var targetDisplay = displayName == null ? new FormattableMessage(plugin, name) : displayName;
+
+        //todo: Move this to getToggle()
+        boolean isBoolean = targetClass.equals(Boolean.class);
 
         return CommandBuilder.builder().startNew()
                 .name(name)
                 .permission(CommonPermissions.optionCommand)
+                .onFilter(filterFunc)
                 .executes((sender, args) ->
                 {
                     if (args.isEmpty())
@@ -218,7 +227,10 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
     private ISubCommand getDouble(String name, ConfigOption<Double> option, @Nullable FormattableMessage displayName)
     {
-        return getGeneric(name, option, displayName, Double.class, Double::parseDouble, TypesString.typeDouble());
+        return getGeneric(name, option, displayName, Double.class, Double::parseDouble, TypesString.typeDouble(), args ->
+        {
+            return List.of();
+        });
     }
 
     private ISubCommand getInteger(String name, ConfigOption<Integer> option)
@@ -228,7 +240,10 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
     private ISubCommand getInteger(String name, ConfigOption<Integer> option, @Nullable FormattableMessage displayName)
     {
-        return getGeneric(name, option, displayName, Integer.class, Integer::parseInt, TypesString.typeInteger());
+        return getGeneric(name, option, displayName, Integer.class, Integer::parseInt, TypesString.typeInteger(), args ->
+        {
+            return List.of();
+        });
     }
 
     private ISubCommand getToggle(String name, ConfigOption<Boolean> option)
@@ -238,7 +253,10 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
 
     private ISubCommand getToggle(String name, ConfigOption<Boolean> option, @Nullable FormattableMessage displayName)
     {
-        return getGeneric(name, option, displayName, Boolean.class, this::parseBoolean, "true/false");
+        return getGeneric(name, option, displayName, Boolean.class, this::parseBoolean, TypesString.typeBoolean(), args ->
+        {
+            return args.size() == 1 ? List.of("true", "false") : List.of();
+        });
     }
 
     private boolean parseBoolean(String input)

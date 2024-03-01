@@ -1,0 +1,21 @@
+{
+  "commands.no_permission": "<color:red>Access denied",
+  "commands.reload_complete": "Reload complete!",
+  "commands.option_get": "Option \"<what>\" is currently set to: <value>",
+  "commands.option_set": "Successfully set \"<what>\" to <value>",
+  "commands.illegal_argument": "Illegal argument: <detail>",
+  "commands.illegal_argument.type_error": "The type for this argument should be <type>",
+  "commands.not_enough_arguments": "<color:red>Not enough arguments!",
+  "commands.list_add_fail_unknown": "<color:red>Cannot add \"<value>\" to <option>, maybe the type isn't correct",
+  "commands.list_add_success": "Added \"<value>\" to <option>",
+  "commands.list_remove_fail_unknown": "<color:red>Cannot remove \"<value>\", maybe it doesn't exist in the list...",
+  "commands.list_remove_success": "Removed \"<value>\" from <option>",
+  "commands.unknown_operation": "Unknown operation: <operation>",
+  "commands.command_not_found": "<color:red>Command not found",
+
+  "types.double": "Double",
+  "types.float": "Float",
+  "types.int": "Integer",
+  "types.string": "String",
+  "type.boolean": "Boolean"
+}

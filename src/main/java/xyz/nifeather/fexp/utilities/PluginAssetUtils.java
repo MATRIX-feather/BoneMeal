@@ -46,7 +46,7 @@ public class PluginAssetUtils
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    public static final String assetPath = "assets/feathermorph";
+    public static final String assetPath = "assets/fexp";
 
     public static String langPath(@NotNull String languageCode)
     {

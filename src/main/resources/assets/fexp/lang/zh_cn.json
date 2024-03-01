@@ -1,0 +1,21 @@
+{
+  "commands.no_permission": "<color:red>禁止接触",
+  "commands.reload_complete": "重载完成！",
+  "commands.option_get": "<what>已设置为<value>",
+  "commands.option_set": "已将选项<what>设置为<value>",
+  "commands.illegal_argument": "无效的参数: <detail>",
+  "commands.illegal_argument.type_error": "参数类型应为<type>",
+  "commands.not_enough_arguments": "<color:red>参数不足",
+  "commands.list_add_fail_unknown": "<color:red>未能添加“<value>”到<option>，可能是类型不对",
+  "commands.list_add_success": "成功添加“<value>”到<option>",
+  "commands.list_remove_fail_unknown": "<color:red>未能移除“<value>”，可能是其不在列表中",
+  "commands.list_remove_success": "成功从<option>移除“<value>”",
+  "commands.unknown_operation": "未知操作： <operation>",
+  "commands.command_not_found": "<color:red>未知指令",
+
+  "types.double": "双精度浮点",
+  "types.float": "单精度浮点",
+  "types.int": "整数",
+  "types.string": "字符串",
+  "type.boolean": "布尔值"
+}

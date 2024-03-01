@@ -9,6 +9,11 @@ public class TypesString extends AbstractMorphStrings
         return getFormattable(getKey("int"), "整数");
     }
 
+    public static FormattableMessage typeBoolean()
+    {
+        return getFormattable(getKey("boolean"), "布尔值（true/false）");
+    }
+
     public static FormattableMessage typeFloat()
     {
         return getFormattable(getKey("float"), "单精度浮点");
