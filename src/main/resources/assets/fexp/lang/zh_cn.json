@@ -17,5 +17,18 @@
   "types.float": "单精度浮点",
   "types.int": "整数",
   "types.string": "字符串",
-  "type.boolean": "布尔值"
+  "type.boolean": "布尔值",
+
+  "help.avaliable_cmd_header": "当前可用的指令（单击补全/查看）",
+  "help.click_to_complete": "点击补全",
+  "help.click_to_view": "点击查看",
+  "help.cmd_entry": "/<basename>：<description>",
+  "help.cmdname_pattern": "/<basename>... -- <description>",
+  "help.description_help": "显示帮助信息",
+  "help.description_mmorph": "插件指令",
+  "help.description_plugin_option": "查询、设置插件选项",
+  "help.description_reload": "重载插件配置",
+  "help.section_header": "指令 /<basename> 的用法：",
+  "help.section_not_found": "<color:red> 未找到此章节",
+  "help.special_note": "特别标注："
 }

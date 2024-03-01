@@ -15,6 +15,7 @@ import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.commands.builder.CommandBuilder;
 import xyz.nifeather.fexp.messages.strings.CommandStrings;
+import xyz.nifeather.fexp.messages.strings.HelpStrings;
 import xyz.nifeather.fexp.utilities.MessageUtils;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
     @Override
     public FormattableMessage getHelpMessage()
     {
-        return new FormattableMessage(plugin, "_");
+        return HelpStrings.mmorphDescription();
     }
 
     @Override
@@ -91,7 +92,7 @@ public class MainPluginCommand extends SubCommandHandler<FeatherExperience>
     @Initializer
     private void load()
     {
-        registerRange(new OptionSubCommand(), new ReloadSubCommand());
+        registerRange(new OptionSubCommand(), new ReloadSubCommand(), new HelpSubCommand());
     }
 
     @Override

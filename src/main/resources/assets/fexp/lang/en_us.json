@@ -17,5 +17,18 @@
   "types.float": "Float",
   "types.int": "Integer",
   "types.string": "String",
-  "type.boolean": "Boolean"
+  "type.boolean": "Boolean",
+
+  "help.avaliable_cmd_header": "Available commands (Click to send/check)",
+  "help.click_to_complete": "Click to complete",
+  "help.click_to_view": "Click to check",
+  "help.cmd_entry": "/<basename>：<description>",
+  "help.cmdname_pattern": "/<basename>... -- <description>",
+  "help.description_help": "Show help messages",
+  "help.description_mmorph": "Plugin command",
+  "help.description_plugin_option": "Check or set a plugin option",
+  "help.description_reload": "Reload configuration",
+  "help.section_header": "Usage for /<basename>: ",
+  "help.section_not_found": "<color:red>No such section",
+  "help.special_note": "Note: "
 }

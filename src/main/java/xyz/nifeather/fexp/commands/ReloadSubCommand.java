@@ -11,6 +11,7 @@ import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.messages.FMessageStore;
+import xyz.nifeather.fexp.messages.strings.HelpStrings;
 import xyz.nifeather.fexp.utilities.MessageUtils;
 
 public class ReloadSubCommand extends FPluginObject implements ISubCommand
@@ -30,7 +31,7 @@ public class ReloadSubCommand extends FPluginObject implements ISubCommand
     @Override
     public FormattableMessage getHelpMessage()
     {
-        return new FormattableMessage(plugin, "reload command");
+        return HelpStrings.reloadDescription();
     }
 
     @Resolved(shouldSolveImmediately = true)

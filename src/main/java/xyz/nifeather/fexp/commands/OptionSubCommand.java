@@ -14,6 +14,7 @@ import xyz.nifeather.fexp.commands.builder.CommandBuilder;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.messages.strings.CommandStrings;
+import xyz.nifeather.fexp.messages.strings.HelpStrings;
 import xyz.nifeather.fexp.messages.strings.TypesString;
 import xyz.nifeather.fexp.utilities.BindableUtils;
 import xyz.nifeather.fexp.utilities.MessageUtils;
@@ -288,6 +289,6 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
     @Override
     public FormattableMessage getHelpMessage()
     {
-        return new FormattableMessage(plugin, "OptionSubCommand");
+        return HelpStrings.pluginOptionDescription();
     }
 }
