@@ -56,9 +56,15 @@ public class SugarcaneHandler extends FPluginObject implements IBonemealHandler
         {
             var pos = searchLoc.clone().add(0, i, 0);
 
+            // Prevent search above build limit
+            if (pos.y() >= world.getMaxHeight())
+                break;
+
             var currentBlock = world.getBlockAt(pos);
             if (currentBlock.getType() == Material.SUGAR_CANE)
+            {
                 caneHeight++;
+            }
             else
             {
                 upperBlock = currentBlock;
@@ -66,11 +72,9 @@ public class SugarcaneHandler extends FPluginObject implements IBonemealHandler
             }
         }
 
-        if (caneHeight >= 3) return false;
+        if (caneHeight >= 3 || upperBlock == null) return false;
 
         // Set block
-        upperBlock = upperBlock == null ? world.getBlockAt(searchLoc) : upperBlock;
-
         if (upperBlock.getType().isAir())
         {
             upperBlock.setType(Material.SUGAR_CANE);
