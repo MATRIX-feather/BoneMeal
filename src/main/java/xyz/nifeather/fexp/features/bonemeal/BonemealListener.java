@@ -14,12 +14,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.utilities.NmsRecord;
 
 import java.util.List;
 
-public class BonemealListener implements Listener
+public class BonemealListener extends FPluginObject implements Listener
 {
     private final BonemealHandler handler = new BonemealHandler();
 
@@ -76,6 +78,19 @@ public class BonemealListener implements Listener
 
     private final List<Player> rightClicked = new ObjectArrayList<>();
 
+    @Initializer
+    private void load()
+    {
+        this.addSchedule(this::update);
+    }
+
+    private void update()
+    {
+        this.addSchedule(this::update);
+
+        rightClicked.clear();
+    }
+
     @EventHandler
     public void onUseItem(PlayerInteractEvent e)
     {
@@ -87,17 +102,17 @@ public class BonemealListener implements Listener
 
         var player = e.getPlayer();
 
-        if (rightClicked.remove(player) && e.getHand() == EquipmentSlot.OFF_HAND)
-            return;
-
         // Get block and its material etc.
         var block = e.getClickedBlock();
         assert block != null;
 
         var item = e.getItem();
 
-        if (item == null) return;
-        if (item.getType() != Material.BONE_MEAL) return;
+        if (item == null || item.getType() != Material.BONE_MEAL)
+            return;
+
+        if (rightClicked.contains(player))
+            return;
 
         if (!handler.onBonemeal(item, block))
             return;
@@ -108,6 +123,9 @@ public class BonemealListener implements Listener
             if (gamemode == GameMode.SURVIVAL || gamemode == GameMode.ADVENTURE)
                 item.setAmount(item.getAmount() - 1);
         }
+
+        // 操作成功，向列表添加此玩家
+        rightClicked.add(player);
 
         // Add to block
         if (e.getHand() == EquipmentSlot.HAND)
