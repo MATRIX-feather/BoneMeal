@@ -1,6 +1,7 @@
 package xyz.nifeather.fexp.features.bonemeal;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
 import xyz.nifeather.fexp.FeatherExperience;
+import xyz.nifeather.fexp.utilities.NmsRecord;
 
 import java.util.List;
 
@@ -100,7 +102,12 @@ public class BonemealListener implements Listener
         if (!handler.onBonemeal(item, block))
             return;
         else
-            item.setAmount(item.getAmount() - 1);
+        {
+            var gamemode = player.getGameMode();
+
+            if (gamemode == GameMode.SURVIVAL || gamemode == GameMode.ADVENTURE)
+                item.setAmount(item.getAmount() - 1);
+        }
 
         // Add to block
         if (e.getHand() == EquipmentSlot.HAND)
