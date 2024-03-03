@@ -1,7 +1,7 @@
 package xyz.nifeather.fexp;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 import xiamomc.pluginbase.Command.CommandHelper;
 import xiamomc.pluginbase.Messages.MessageStore;
 import xiamomc.pluginbase.XiaMoJavaPlugin;
@@ -42,6 +42,8 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         instance = this;
     }
 
+    private Metrics metrics;
+
     @Override
     public void onEnable()
     {
@@ -62,6 +64,8 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         dependencyManager.cache(cmdHelper);
         dependencyManager.cacheAs(CommandHelper.class, cmdHelper);
         dependencyManager.cacheAs(MessageStore.class, new FMessageStore());
+
+        this.metrics = new Metrics(this, 21211);
     }
 
     private ShulkerListener shulkerListener;
@@ -71,8 +75,19 @@ public final class FeatherExperience extends XiaMoJavaPlugin
     {
         super.onDisable();
 
-        if (shulkerListener != null)
-            shulkerListener.onDisable();
+        try
+        {
+            if (shulkerListener != null)
+                shulkerListener.onDisable();
+
+            if (metrics != null)
+                metrics.shutdown();
+        }
+        catch (Throwable t)
+        {
+            logger.warn("Error occurred while disabling: " + t.getMessage());
+            t.printStackTrace();
+        }
     }
 
     @Override

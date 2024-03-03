@@ -109,8 +109,8 @@ tasks.build {
 
 tasks.shadowJar {
     minimize()
-    relocate("xiamomc.pluginbase", "xiamomc.morph.shaded.pluginbase")
-    relocate("org.bstats", "xiamomc.morph.shaded.bstats")
+    relocate("xiamomc.pluginbase", "xyz.nifeather.fexp.shaded.pluginbase")
+    relocate("org.bstats", "xyz.nifeather.fexp.shaded.bstats")
 }
 
 tasks.withType<JavaCompile>() {
