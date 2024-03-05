@@ -1,6 +1,7 @@
 package xyz.nifeather.fexp.features.mobbucket;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -32,11 +33,14 @@ public class MobBucketListener extends FPluginObject implements Listener
     {
         var item = e.getPlayer().getEquipment().getItem(e.getHand());
 
+        if (blockedUUIDs.contains(e.getPlayer().getUniqueId()))
+            return;
+
         if (bucketHandler.onInteract(item, e.getRightClicked()))
         {
             var nmsPlayer = NmsRecord.ofPlayer(e.getPlayer());
 
-            if (!nmsPlayer.gameMode.isCreative())
+            if (nmsPlayer.gameMode.isSurvival())
                 item.setAmount(item.getAmount() - 1);
 
             blockedUUIDs.add(e.getPlayer().getUniqueId());

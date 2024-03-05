@@ -58,8 +58,6 @@ public class MobBucketHandler extends FPluginObject
         if (clickedEntity instanceof Boss)
             return false;
 
-        item.setAmount(item.getAmount() - 1);
-
         var newItem = ItemStack.empty();
         newItem.setAmount(1);
 
