@@ -51,5 +51,11 @@ root:
       # Enable this feature?
       enabled: true
 
+      # Disable this feature in these worlds.
+      # !!! Please note that players can still use the spawn egg in these worlds !!!
+      disabled_worlds:
+        - disabled_world1
+        - disabled_world2
+
   # Do not touch unless you know what you're doing!
   version: 4

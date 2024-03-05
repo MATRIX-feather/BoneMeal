@@ -49,6 +49,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getToggle("save_tridents.enabled", FConfigOptions.TRIDENT));
 
         subCommands.add(getToggle("mob_eggs.enabled", FConfigOptions.VILLAGER_EGG));
+        subCommands.add(getList("mob_eggs.disabled_worlds", FConfigOptions.EGG_DISABLED_WORLDS, null));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
@@ -71,11 +72,15 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                 .permission(CommonPermissions.optionCommand)
                 .onFilter(args ->
                 {
-                    return List.of();
+                    if (args.size() > 1) return List.of();
+
+                    var input = args.isEmpty() ? "" : args.get(0);
+                    var list = List.of("add", "remove", "list");
+                    return list.stream().filter(op -> op.toLowerCase().startsWith(input.toLowerCase())).toList();
                 })
                 .executes((sender, args) ->
                 {
-                    if (args.isEmpty())
+                    if (args.isEmpty() || args.get(0).equalsIgnoreCase("list"))
                     {
                         var displayValue = BindableUtils.bindableListToString(bindableList);
                         sender.sendMessage(MessageUtils.prefixes(sender,
@@ -102,9 +107,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                         var value = args.get(1);
                         try
                         {
-                            bindableList.add(value);
-
-                            //workaround: List的add方法传入非null时永远返回true
+                            // 先预先检查一遍是否存在
                             if (bindableList.contains(value))
                             {
                                 sender.sendMessage(MessageUtils.prefixes(sender,
@@ -112,15 +115,18 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                                                 .withLocale(MessageUtils.getLocale(sender))
                                                 .resolve("value", value)
                                                 .resolve("option", optionName)));
+
+                                return true;
                             }
-                            else
-                            {
-                                sender.sendMessage(MessageUtils.prefixes(sender,
-                                        CommandStrings.listAddFailUnknown()
-                                                .withLocale(MessageUtils.getLocale(sender))
-                                                .resolve("value", value)
-                                                .resolve("option", optionName)));
-                            }
+
+                            // 若不存在，则尝试添加
+                            bindableList.add(value);
+
+                            sender.sendMessage(MessageUtils.prefixes(sender,
+                                    CommandStrings.listAddSuccess()
+                                            .withLocale(MessageUtils.getLocale(sender))
+                                            .resolve("value", value)
+                                            .resolve("option", optionName)));
                         }
                         catch (Throwable t)
                         {

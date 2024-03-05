@@ -10,18 +10,24 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
+import xiamomc.pluginbase.Bindables.BindableList;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
 
+import java.util.List;
+
 public class MobBucketHandler extends FPluginObject
 {
     private final Bindable<Boolean> enabled = new Bindable<>(false);
+    private BindableList<String> disabledWorlds = new BindableList<>(List.of());
 
     @Initializer
     private void load(FConfigManager configManager)
     {
         configManager.bind(enabled, FConfigOptions.VILLAGER_EGG);
+
+        disabledWorlds = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS);
     }
 
     /**
@@ -49,6 +55,9 @@ public class MobBucketHandler extends FPluginObject
     private boolean onEmptyInteract(ItemStack item, @Nullable Entity clickedEntity)
     {
         if (clickedEntity == null) return false;
+
+        if (disabledWorlds.stream().anyMatch(s -> s.equalsIgnoreCase(clickedEntity.getWorld().getName())))
+            return false;
 
         // 不允许收集玩家和非LivingEntity的实体
         if (!(clickedEntity instanceof LivingEntity) || clickedEntity instanceof Player)

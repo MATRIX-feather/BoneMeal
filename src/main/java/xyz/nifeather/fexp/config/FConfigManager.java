@@ -2,6 +2,7 @@ package xyz.nifeather.fexp.config;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
+import xiamomc.pluginbase.Bindables.BindableList;
 import xiamomc.pluginbase.Configuration.ConfigNode;
 import xiamomc.pluginbase.Configuration.ConfigOption;
 import xiamomc.pluginbase.Configuration.PluginConfigManager;

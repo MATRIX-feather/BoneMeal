@@ -28,6 +28,7 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> TRIDENT = new ConfigOption<>(featureNode().append("save_tridents_from_void").append("enabled"), true);
 
     public static final ConfigOption<Boolean> VILLAGER_EGG = new ConfigOption<>(featureNode().append("mob_eggs").append("enabled"), true);
+    public static final ConfigOption<List<String>> EGG_DISABLED_WORLDS = new ConfigOption<>(featureNode().append("mob_eggs").append("disabled_worlds"), List.of("disabled_world1", "disabled_world2"));
 
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
