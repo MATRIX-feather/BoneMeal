@@ -46,5 +46,10 @@ root:
       # Enable this feature?
       enabled: true
 
+    # Turn mobs into spawn eggs when clicked with an egg
+    mob_eggs:
+      # Enable this feature?
+      enabled: true
+
   # Do not touch unless you know what you're doing!
-  version: 3
+  version: 4
