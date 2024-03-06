@@ -36,8 +36,13 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
     public OptionSubCommand()
     {
         subCommands.add(getToggle("bonemeal.coral", FConfigOptions.FEAT_BONEMEAL_ON_CORAL));
+        subCommands.add(getToggle("bonemeal.coral_allow_dispenser", FConfigOptions.CORAL_ALLOW_DISPENSER));
+
         subCommands.add(getToggle("bonemeal.flower", FConfigOptions.FEAT_BONEMEAL_ON_FLOWER));
+        subCommands.add(getToggle("bonemeal.flower_allow_dispenser", FConfigOptions.FLOWER_ALLOW_DISPENSER));
+
         subCommands.add(getToggle("bonemeal.sugarcane", FConfigOptions.FEAT_BONEMEAL_ON_SUGARCANE));
+        subCommands.add(getToggle("bonemeal.sugarcane_allow_dispenser", FConfigOptions.SUGARCANE_ALLOW_DISPENSER));
 
         subCommands.add(getToggle("shulkerbox.open", FConfigOptions.FEAT_OPEN_SHULKERBOX));
 

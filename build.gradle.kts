@@ -92,14 +92,20 @@ bukkit {
         mainCommand.aliases = listOf("fe");
     }
 
-    val permissionRoot = "fexp."
+    val permissionRoot = "fexp"
 
     permissions {
-        register(permissionRoot + "use").get().default = BukkitPluginDescription.Permission.Default.TRUE;
+        register("${permissionRoot}.cmd").get().default = BukkitPluginDescription.Permission.Default.OP;
+        register("${permissionRoot}.cmd.option").get().default = BukkitPluginDescription.Permission.Default.OP;
+        register("${permissionRoot}.cmd.reload").get().default = BukkitPluginDescription.Permission.Default.OP;
 
-        register(permissionRoot + "cmd").get().default = BukkitPluginDescription.Permission.Default.OP;
-        register(permissionRoot + "cmd.option").get().default = BukkitPluginDescription.Permission.Default.OP;
-        register(permissionRoot + "cmd.reload").get().default = BukkitPluginDescription.Permission.Default.OP;
+        register("${permissionRoot}.mobegg.use").get().default = BukkitPluginDescription.Permission.Default.TRUE;
+
+        register("${permissionRoot}.bonemeal.flower").get().default = BukkitPluginDescription.Permission.Default.TRUE;
+        register("${permissionRoot}.bonemeal.sugarcane").get().default = BukkitPluginDescription.Permission.Default.TRUE;
+        register("${permissionRoot}.bonemeal.coral").get().default = BukkitPluginDescription.Permission.Default.TRUE;
+
+        register("${permissionRoot}.shulkerbox.use").get().default = BukkitPluginDescription.Permission.Default.TRUE;
     }
 }
 

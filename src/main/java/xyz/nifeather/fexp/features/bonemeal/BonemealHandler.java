@@ -3,7 +3,9 @@ package xyz.nifeather.fexp.features.bonemeal;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.features.bonemeal.handlers.CoralHandler;
 import xyz.nifeather.fexp.features.bonemeal.handlers.FlowerHandler;
@@ -74,7 +76,7 @@ public class BonemealHandler extends FPluginObject
     /**
      * @return 执行是否成功
      */
-    public boolean onBonemeal(ItemStack stack, Block targetBlock)
+    public boolean onBonemeal(ItemStack stack, Block targetBlock, @Nullable Player sourcePlayer)
     {
         if (stack.getType() != Material.BONE_MEAL) return false;
 
@@ -84,7 +86,7 @@ public class BonemealHandler extends FPluginObject
         {
             try
             {
-                if (handler.onBonemeal(targetBlock))
+                if (handler.onBonemeal(targetBlock, sourcePlayer))
                 {
                     executeSuccess = true;
                     break;

@@ -2,6 +2,8 @@ package xyz.nifeather.fexp.features.bonemeal;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -26,5 +28,5 @@ public interface IBonemealHandler
      * @param block The block that been interacted with bone meal
      * @return True if we should consume the bone meal, otherwise False
      */
-    public boolean onBonemeal(Block block);
+    public boolean onBonemeal(Block block, @Nullable Player sourcePlayer);
 }

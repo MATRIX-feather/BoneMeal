@@ -15,8 +15,13 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> SINGLE_LANGUAGE = new ConfigOption<>(ConfigNode.create().append("single_language"), false);
 
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_CORAL = new ConfigOption<>(featureBonemealNode().append("coral"), true);
+    public static final ConfigOption<Boolean> CORAL_ALLOW_DISPENSER = new ConfigOption<>(featureBonemealNode().append("coral_allow_dispenser"), true);
+
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_FLOWER = new ConfigOption<>(featureBonemealNode().append("flower"), true);
+    public static final ConfigOption<Boolean> FLOWER_ALLOW_DISPENSER = new ConfigOption<>(featureBonemealNode().append("flower_allow_dispenser"), true);
+
     public static final ConfigOption<Boolean> FEAT_BONEMEAL_ON_SUGARCANE = new ConfigOption<>(featureBonemealNode().append("sugarcane"), true);
+    public static final ConfigOption<Boolean> SUGARCANE_ALLOW_DISPENSER = new ConfigOption<>(featureBonemealNode().append("sugarcane_allow_dispenser"), true);
 
     public static final ConfigOption<Boolean> FEAT_OPEN_SHULKERBOX = new ConfigOption<>(featureNode().append("shulkerbox").append("open"), true);
 

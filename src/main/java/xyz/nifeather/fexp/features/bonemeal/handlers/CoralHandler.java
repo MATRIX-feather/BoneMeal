@@ -10,9 +10,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
 import xyz.nifeather.fexp.MaterialTypes;
@@ -39,8 +41,14 @@ public class CoralHandler extends FPluginObject implements IBonemealHandler
      * @return True if we should consume the bone meal, otherwise False
      */
     @Override
-    public boolean onBonemeal(Block block)
+    public boolean onBonemeal(Block block, @Nullable Player sourcePlayer)
     {
+        if (sourcePlayer != null && !sourcePlayer.hasPermission(CommonPermissions.bonemealCoral))
+            return false;
+
+        if (sourcePlayer == null && !allowDispenser.get())
+            return false;
+
         return useOnCoral(block);
     }
 
@@ -117,10 +125,12 @@ public class CoralHandler extends FPluginObject implements IBonemealHandler
     }
 
     private final Bindable<Boolean> enableCoral = new Bindable<>(false);
+    private final Bindable<Boolean> allowDispenser = new Bindable<>(false);
 
     @Initializer
     private void load(FConfigManager config)
     {
+        config.bind(allowDispenser, FConfigOptions.CORAL_ALLOW_DISPENSER);
         config.bind(enableCoral, FConfigOptions.FEAT_BONEMEAL_ON_CORAL);
     }
 }

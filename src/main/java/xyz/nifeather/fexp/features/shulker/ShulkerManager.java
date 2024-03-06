@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.Map;
@@ -78,6 +79,9 @@ public class ShulkerManager
     public boolean tryOpenBox(ItemStack itemStack, Player player, int slot)
     {
         if (!MaterialUtils.isShulkerBox(itemStack.getType()))
+            return false;
+
+        if (!player.hasPermission(CommonPermissions.shulkerBox))
             return false;
 
         if (!(itemStack.getItemMeta() instanceof BlockStateMeta blockStateMeta))

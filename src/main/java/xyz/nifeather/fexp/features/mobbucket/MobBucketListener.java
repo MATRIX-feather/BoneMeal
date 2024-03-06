@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.utilities.NmsRecord;
 
@@ -33,8 +34,11 @@ public class MobBucketListener extends FPluginObject implements Listener
     {
         var item = e.getPlayer().getEquipment().getItem(e.getHand());
 
-        if (blockedUUIDs.contains(e.getPlayer().getUniqueId()))
+        if (blockedUUIDs.contains(e.getPlayer().getUniqueId())
+            || !e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
+        {
             return;
+        }
 
         if (bucketHandler.onInteract(item, e.getRightClicked()))
         {

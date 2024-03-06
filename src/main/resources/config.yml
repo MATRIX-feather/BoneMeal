@@ -16,12 +16,18 @@ root:
     bone_meal:
       # Should we allow using bone meal on flowers?
       flower: true
+      # Should we allow the usage of dispenser on flowers?
+      flower_allow_dispenser: true
 
       # Enable renewable corals?
       coral: true
+      # Should we allow the usage of dispenser on corals?
+      coral_allow_dispenser: true
 
       # Allow using bone meal on sugarcane?
       sugarcane: true
+      # Should we allow the usage of dispenser on sugarcane?
+      sugarcane_allow_dispenser: true
 
     # Deepslate options
     deepslate:

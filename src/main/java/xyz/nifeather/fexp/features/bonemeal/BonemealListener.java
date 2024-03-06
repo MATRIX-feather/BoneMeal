@@ -52,7 +52,7 @@ public class BonemealListener extends FPluginObject implements Listener
         var item = e.getItem();
         var targetBlock = sourceBlock.getWorld().getBlockAt(targetLoc);
 
-        if (!handler.onBonemeal(item, targetBlock))
+        if (!handler.onBonemeal(item, targetBlock, null))
             return;
 
         var world = targetBlock.getWorld();
@@ -114,7 +114,7 @@ public class BonemealListener extends FPluginObject implements Listener
         if (rightClicked.contains(player))
             return;
 
-        if (!handler.onBonemeal(item, block))
+        if (!handler.onBonemeal(item, block, player))
             return;
         else
         {

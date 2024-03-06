@@ -2,8 +2,11 @@ package xyz.nifeather.fexp.features.bonemeal.handlers;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
@@ -27,9 +30,15 @@ public class SugarcaneHandler extends FPluginObject implements IBonemealHandler
      * @return True if we should consume the bone meal, otherwise False
      */
     @Override
-    public boolean onBonemeal(Block block)
+    public boolean onBonemeal(Block block, @Nullable Player sourcePlayer)
     {
         if (!enableSugarcane.get() || block.getType() != Material.SUGAR_CANE) return false;
+
+        if (sourcePlayer != null && !sourcePlayer.hasPermission(CommonPermissions.bonemealSugarcane))
+            return false;
+
+        if (sourcePlayer == null && !allowDispenser.get())
+            return false;
 
         var world = block.getWorld();
 
@@ -85,10 +94,12 @@ public class SugarcaneHandler extends FPluginObject implements IBonemealHandler
     }
 
     private final Bindable<Boolean> enableSugarcane = new Bindable<>(false);
+    private final Bindable<Boolean> allowDispenser = new Bindable<>(false);
 
     @Initializer
     private void load(FConfigManager config)
     {
+        config.bind(allowDispenser, FConfigOptions.SUGARCANE_ALLOW_DISPENSER);
         config.bind(enableSugarcane, FConfigOptions.FEAT_BONEMEAL_ON_SUGARCANE);
     }
 }
