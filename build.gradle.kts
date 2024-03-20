@@ -43,6 +43,10 @@ repositories {
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
+
+    maven {
+        url = uri("https://maven.playpro.com")
+    }
 }
 
 dependencies {
@@ -58,7 +62,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+    //implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 
     implementation("com.github.XiaMoZhiShi:PluginBase:${project.property("pluginbase_version")}")
     {
@@ -67,6 +71,7 @@ dependencies {
 
     //compileOnly("com.github.Gecolay:GSit:${project.property("gsit_version")}")
     compileOnly("me.clip:placeholderapi:${project.property("papi_version")}")
+    compileOnly("net.coreprotect:coreprotect:22.2")
 }
 
 group = "xyz.nifeather.fexp"
