@@ -63,5 +63,9 @@ root:
         - disabled_world1
         - disabled_world2
 
+      disabled_mobs:
+        - minecraft:disabled_1
+        - minecraft:disabled_2
+
   # Do not touch unless you know what you're doing!
   version: 4

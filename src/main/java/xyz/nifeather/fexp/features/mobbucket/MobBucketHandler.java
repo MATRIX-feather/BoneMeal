@@ -21,6 +21,7 @@ public class MobBucketHandler extends FPluginObject
 {
     private final Bindable<Boolean> enabled = new Bindable<>(false);
     private BindableList<String> disabledWorlds = new BindableList<>(List.of());
+    private BindableList<String> disabledMobs = new BindableList<>(List.of());
 
     @Initializer
     private void load(FConfigManager configManager)
@@ -28,6 +29,7 @@ public class MobBucketHandler extends FPluginObject
         configManager.bind(enabled, FConfigOptions.VILLAGER_EGG);
 
         disabledWorlds = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS);
+        disabledMobs = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_MOBS);
     }
 
     /**
@@ -65,6 +67,10 @@ public class MobBucketHandler extends FPluginObject
 
         // 不允许收集Boss
         if (clickedEntity instanceof Boss)
+            return false;
+
+        // 不允许收集黑名单里的生物
+        if (disabledMobs.contains(clickedEntity.getType().key().asString()))
             return false;
 
         var newItem = ItemStack.empty();
