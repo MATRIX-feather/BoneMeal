@@ -51,7 +51,7 @@ public class FConfigManager extends PluginConfigManager
         super.reload();
 
         //更新配置
-        int targetVersion = 4;
+        int targetVersion = 5;
 
         var configVersion = getOrDefault(Integer.class, FConfigOptions.VERSION);
 
