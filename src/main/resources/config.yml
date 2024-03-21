@@ -59,10 +59,19 @@ root:
 
       # Disable this feature in these worlds.
       # !!! Please note that players can still use the spawn egg in these worlds !!!
+      #
+      # disabled_worlds:
+      #   - disabled_world1
+      #   - disabled_world2
       disabled_worlds:
         - disabled_world1
         - disabled_world2
 
+      # Disable this feature for certain mobs
+      #
+      # disabled_mobs:
+      #   - minecraft:warden
+      #   - minecraft:wither
       disabled_mobs:
         - minecraft:disabled_1
         - minecraft:disabled_2
