@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
@@ -83,6 +84,12 @@ public class ShulkerListener extends FPluginObject implements Listener
 
         if (drop.equals(entrySet.getValue().stack()))
             e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerExit(PlayerQuitEvent e)
+    {
+        shulkerManager.closeBox(e.getPlayer());
     }
 
     public void onDisable()
