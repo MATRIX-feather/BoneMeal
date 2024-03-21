@@ -15,6 +15,7 @@ import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.features.trident.TridentSaverListener;
 import xyz.nifeather.fexp.listener.TabCompleteListener;
 import xyz.nifeather.fexp.messages.FMessageStore;
+import xyz.nifeather.fexp.misc.integrations.coreprotect.CoreProtectIntegration;
 
 public final class FeatherExperience extends XiaMoJavaPlugin
 {
@@ -59,6 +60,9 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new MobBucketListener(), this);
 
         pluginManager.registerEvents(new TabCompleteListener(), this);
+
+        softDeps.setHandle("CoreProtect", pl ->
+                dependencyManager.cache(new CoreProtectIntegration()), true);
 
         dependencyManager.cache(new FConfigManager(this));
 

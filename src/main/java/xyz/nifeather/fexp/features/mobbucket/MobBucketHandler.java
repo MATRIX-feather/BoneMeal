@@ -9,11 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Annotations.Resolved;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xiamomc.pluginbase.Bindables.BindableList;
 import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
+import xyz.nifeather.fexp.misc.integrations.coreprotect.CoreProtectIntegration;
 
 import java.util.List;
 
@@ -38,15 +40,26 @@ public class MobBucketHandler extends FPluginObject
      * @param clickedEntity
      * @return
      */
-    public boolean onInteract(ItemStack item, @Nullable Entity clickedEntity)
+    public boolean onInteract(ItemStack item, @Nullable Entity clickedEntity, Player player)
     {
         if (!enabled.get()) return false;
 
         if (item.getType() == Material.EGG)
-            return onEmptyInteract(item, clickedEntity);
+        {
+            var success = onEmptyInteract(item, clickedEntity);
+
+            if (success && coreProtectIntegration != null)
+                coreProtectIntegration.logInteract(player, clickedEntity.getLocation());
+
+            return success;
+        }
 
         return false;
     }
+
+    @Resolved(allowNull = true)
+    @Nullable
+    private CoreProtectIntegration coreProtectIntegration;
 
     /**
      * Whether this operation operates successfully

@@ -40,7 +40,7 @@ public class MobBucketListener extends FPluginObject implements Listener
             return;
         }
 
-        if (bucketHandler.onInteract(item, e.getRightClicked()))
+        if (bucketHandler.onInteract(item, e.getRightClicked(), e.getPlayer()))
         {
             var nmsPlayer = NmsRecord.ofPlayer(e.getPlayer());
 
