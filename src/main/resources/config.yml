@@ -39,6 +39,12 @@ root:
       # Allow players open shulker box on their hand without placing it down?
       open: true
 
+      # A workaround for some plugins that sync players' inventories across multiple servers.
+      # Wait for the configured ticks before we allow someone to open a box after they join
+      #
+      # PS: 1 second = 20 ticks
+      wkar_open_delay: 40
+
     # Bossbar options
     bossbar:
       # Show bossbar for Warden?
@@ -77,4 +83,4 @@ root:
         - minecraft:disabled_2
 
   # Do not touch unless you know what you're doing!
-  version: 5
+  version: 6

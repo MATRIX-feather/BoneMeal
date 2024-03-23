@@ -24,6 +24,7 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> SUGARCANE_ALLOW_DISPENSER = new ConfigOption<>(featureBonemealNode().append("sugarcane_allow_dispenser"), true);
 
     public static final ConfigOption<Boolean> FEAT_OPEN_SHULKERBOX = new ConfigOption<>(featureNode().append("shulkerbox").append("open"), true);
+    public static final ConfigOption<Integer> SHULKERBOX_OPEN_DELAY = new ConfigOption<>(featureNode().append("shulkerbox").append("wkar_open_delay"), 40);
 
     public static final ConfigOption<Boolean> FEAT_DEEPSLATE_FARM = new ConfigOption<>(featureNode().append("deepslate").append("farm"), true);
 

@@ -45,6 +45,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getToggle("bonemeal.sugarcane_allow_dispenser", FConfigOptions.SUGARCANE_ALLOW_DISPENSER));
 
         subCommands.add(getToggle("shulkerbox.open", FConfigOptions.FEAT_OPEN_SHULKERBOX));
+        subCommands.add(getInteger("shulkerbox.open_delay", FConfigOptions.SHULKERBOX_OPEN_DELAY));
 
         subCommands.add(getToggle("deepslate.farm", FConfigOptions.FEAT_DEEPSLATE_FARM));
 

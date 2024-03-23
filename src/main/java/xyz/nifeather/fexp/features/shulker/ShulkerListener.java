@@ -1,6 +1,9 @@
 package xyz.nifeather.fexp.features.shulker;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +12,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
@@ -16,6 +20,7 @@ import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.config.FConfigManager;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class ShulkerListener extends FPluginObject implements Listener
@@ -23,14 +28,24 @@ public class ShulkerListener extends FPluginObject implements Listener
     private final ShulkerManager shulkerManager = new ShulkerManager();
 
     private final Bindable<Boolean> enabled = new Bindable<>(false);
+    private final Bindable<Integer> disbaledTime = new Bindable<>();
 
     @Initializer
     private void load(FConfigManager config)
     {
         config.bind(enabled, FConfigOptions.FEAT_OPEN_SHULKERBOX);
+        config.bind(disbaledTime, FConfigOptions.SHULKERBOX_OPEN_DELAY);
     }
 
+    private final Map<Player, Long> playerJoinTimeMap = new Object2ObjectArrayMap<>();
+
     @EventHandler
+    public void onJoin(PlayerJoinEvent e)
+    {
+        playerJoinTimeMap.put(e.getPlayer(), plugin.getCurrentTick());
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent e)
     {
         if (!enabled.get()) return;
@@ -42,6 +57,19 @@ public class ShulkerListener extends FPluginObject implements Listener
         if (!e.getAction().isRightClick() || e.getClickedBlock() != null) return;
 
         var player = e.getPlayer();
+
+        if (plugin.getCurrentTick() - playerJoinTimeMap.getOrDefault(player, 0L) <= disbaledTime.get())
+        {
+            if (MaterialUtils.isShulkerBox(item.getType()))
+            {
+                player.getWorld()
+                        .spawnParticle(Particle.SMOKE_NORMAL, player.getLocation().add(0, 0.8d, 0), 50, 0.1, 0.1, 0.1);
+            }
+
+            return;
+        }
+
+        playerJoinTimeMap.remove(player);
 
         //如果打开了别的盒子，那么不要处理
         if (shulkerManager.openingBox(player))
@@ -90,6 +118,7 @@ public class ShulkerListener extends FPluginObject implements Listener
     public void onPlayerExit(PlayerQuitEvent e)
     {
         shulkerManager.closeBox(e.getPlayer());
+        playerJoinTimeMap.remove(e.getPlayer());
     }
 
     public void onDisable()
