@@ -59,15 +59,7 @@ public class ShulkerListener extends FPluginObject implements Listener
         var player = e.getPlayer();
 
         if (plugin.getCurrentTick() - playerJoinTimeMap.getOrDefault(player, 0L) <= disbaledTime.get())
-        {
-            if (MaterialUtils.isShulkerBox(item.getType()))
-            {
-                player.getWorld()
-                        .spawnParticle(Particle.SMOKE_NORMAL, player.getLocation().add(0, 0.8d, 0), 50, 0.1, 0.1, 0.1);
-            }
-
             return;
-        }
 
         playerJoinTimeMap.remove(player);
 
