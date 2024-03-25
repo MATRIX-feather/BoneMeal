@@ -45,7 +45,7 @@ public class ShulkerListener extends FPluginObject implements Listener
         playerJoinTimeMap.put(e.getPlayer(), plugin.getCurrentTick());
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onInteract(PlayerInteractEvent e)
     {
         if (!enabled.get()) return;
