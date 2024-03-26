@@ -66,6 +66,7 @@ root:
       # Disable this feature in these worlds.
       # !!! Please note that players can still use the spawn egg in these worlds !!!
       #
+      # Example:
       # disabled_worlds:
       #   - disabled_world1
       #   - disabled_world2
@@ -75,6 +76,7 @@ root:
 
       # Disable this feature for certain mobs
       #
+      # Example:
       # disabled_mobs:
       #   - minecraft:warden
       #   - minecraft:wither
@@ -82,5 +84,13 @@ root:
         - minecraft:disabled_1
         - minecraft:disabled_2
 
+      # Mob whitelist, only allow players to catch these mobs
+      #
+      # Example:
+      # mob_whitelist:
+      #   - minecraft:villager
+      #   - minecraft:allay
+      mob_whitelist: []
+
   # Do not touch unless you know what you're doing!
-  version: 6
+  version: 7

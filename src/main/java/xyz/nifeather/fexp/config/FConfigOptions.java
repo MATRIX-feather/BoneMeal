@@ -36,6 +36,7 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> VILLAGER_EGG = new ConfigOption<>(featureNode().append("mob_eggs").append("enabled"), true);
     public static final ConfigOption<List<String>> EGG_DISABLED_WORLDS = new ConfigOption<>(featureNode().append("mob_eggs").append("disabled_worlds"), List.of("disabled_world1", "disabled_world2"));
     public static final ConfigOption<List<String>> EGG_DISABLED_MOBS = new ConfigOption<>(featureNode().append("mob_eggs").append("disabled_mobs"), List.of("minecraft:disabled_1", "minecraft:disabled_2"));
+    public static final ConfigOption<List<String>> EGG_WHITELIST = new ConfigOption<>(featureNode().append("mob_eggs").append("mob_whitelist"), List.of());
 
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 

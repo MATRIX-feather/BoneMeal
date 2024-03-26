@@ -24,6 +24,7 @@ public class MobBucketHandler extends FPluginObject
     private final Bindable<Boolean> enabled = new Bindable<>(false);
     private BindableList<String> disabledWorlds = new BindableList<>(List.of());
     private BindableList<String> disabledMobs = new BindableList<>(List.of());
+    private BindableList<String> whitelist = new BindableList<>(List.of());
 
     @Initializer
     private void load(FConfigManager configManager)
@@ -32,6 +33,7 @@ public class MobBucketHandler extends FPluginObject
 
         disabledWorlds = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS);
         disabledMobs = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_MOBS);
+        whitelist = configManager.getBindableList(String.class, FConfigOptions.EGG_WHITELIST);
     }
 
     /**
@@ -82,8 +84,14 @@ public class MobBucketHandler extends FPluginObject
         if (clickedEntity instanceof Boss)
             return false;
 
+        var mobId = clickedEntity.getType().key().asString();
+
         // 不允许收集黑名单里的生物
-        if (disabledMobs.contains(clickedEntity.getType().key().asString()))
+        if (disabledMobs.contains(mobId))
+            return false;
+
+        // 白名单
+        if (!whitelist.isEmpty() && !whitelist.contains(mobId))
             return false;
 
         var newItem = ItemStack.empty();
