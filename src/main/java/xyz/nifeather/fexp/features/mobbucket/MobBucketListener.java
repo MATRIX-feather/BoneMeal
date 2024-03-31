@@ -5,6 +5,8 @@ import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import xyz.nifeather.fexp.CommonPermissions;
 import xyz.nifeather.fexp.FPluginObject;
@@ -29,13 +31,12 @@ public class MobBucketListener extends FPluginObject implements Listener
 
     private final List<UUID> blockedUUIDs = new ObjectArrayList<>();
 
-    @EventHandler
-    public void onInteractEntity(PlayerInteractEntityEvent e)
+    private void onEntityInteract(PlayerInteractEntityEvent e)
     {
         var item = e.getPlayer().getEquipment().getItem(e.getHand());
 
         if (blockedUUIDs.contains(e.getPlayer().getUniqueId())
-            || !e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
+                || !e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
         {
             return;
         }
@@ -51,5 +52,17 @@ public class MobBucketListener extends FPluginObject implements Listener
 
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onVillager(PlayerInteractAtEntityEvent e)
+    {
+        this.onEntityInteract(e);
+    }
+
+    @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent e)
+    {
+        this.onEntityInteract(e);
     }
 }

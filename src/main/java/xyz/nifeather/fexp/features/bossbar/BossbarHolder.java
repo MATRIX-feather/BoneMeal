@@ -8,7 +8,6 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Warden;
-import org.jetbrains.annotations.Nullable;
 import xiamomc.pluginbase.Annotations.Initializer;
 import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
@@ -17,6 +16,7 @@ import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.features.bossbar.easings.Easing;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BossbarHolder extends FPluginObject
 {
@@ -27,20 +27,19 @@ public class BossbarHolder extends FPluginObject
         this.bindingEntity = entity;
     }
 
-    @Nullable
-    private BossBar bindingBossbar;
+    private final AtomicReference<BossBar> bindingBossbar = new AtomicReference<>(null);
 
     @Initializer
     private void load(FConfigManager config)
     {
         this.scheduleOn(bindingEntity, () ->
         {
-            this.bindingBossbar = BossBar.bossBar(
+            this.bindingBossbar.set(BossBar.bossBar(
                     bindingEntity.name(),
                     (float) (bindingEntity.getHealth() / bindingEntity.getMaxHealth()),
                     BossBar.Color.BLUE,
                     BossBar.Overlay.PROGRESS
-            );
+            ));
         });
 
         config.bind(enableBossbar, FConfigOptions.WARDEN_BOSSBAR);
@@ -48,8 +47,9 @@ public class BossbarHolder extends FPluginObject
 
         enableBossbar.onValueChanged((o, n) ->
         {
-            if (!n && bindingBossbar != null)
-                bindingEntity.getWorld().getPlayers().forEach(p -> p.hideBossBar(bindingBossbar));
+            var binding = bindingBossbar.get();
+            if (!n && binding != null)
+                bindingEntity.getWorld().getPlayers().forEach(p -> p.hideBossBar(binding));
         });
 
         this.scheduleOnRegion(bindingEntity, this::update);
@@ -61,6 +61,9 @@ public class BossbarHolder extends FPluginObject
     private void update()
     {
         if (this.disposed.get()) return;
+
+        var bindingBossbar = this.bindingBossbar.get();
+
         this.scheduleOnRegion(bindingEntity, this::update);
 
         if (!enableBossbar.get() || bindingBossbar == null) return;
@@ -95,7 +98,7 @@ public class BossbarHolder extends FPluginObject
                 nameComponent.append(angerText);
             }
 
-            this.bindingBossbar.name(nameComponent);
+            bindingBossbar.name(nameComponent);
 
             var loc = bindingEntity.getLocation();
             var playersRemaining = new ObjectArrayList<>(bindingEntity.getWorld().getPlayers());
@@ -104,8 +107,8 @@ public class BossbarHolder extends FPluginObject
                     .toList();
 
             playersRemaining.removeAll(playersInView);
-            playersInView.forEach(p -> p.showBossBar(this.bindingBossbar));
-            playersRemaining.forEach(p -> p.hideBossBar(this.bindingBossbar));
+            playersInView.forEach(p -> p.showBossBar(bindingBossbar));
+            playersRemaining.forEach(p -> p.hideBossBar(bindingBossbar));
         }
     }
 
@@ -113,12 +116,13 @@ public class BossbarHolder extends FPluginObject
 
     public void dispose()
     {
-        if (this.bindingBossbar != null)
+        var bindingBossbar = this.bindingBossbar.get();
+        if (bindingBossbar != null)
         {
-            this.bindingBossbar.viewers().forEach(bossBarViewer ->
+            bindingBossbar.viewers().forEach(bossBarViewer ->
             {
                 if (bossBarViewer instanceof Audience audience)
-                    audience.hideBossBar(this.bindingBossbar);
+                    audience.hideBossBar(bindingBossbar);
             });
         }
 
