@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -69,6 +70,21 @@ public class ShulkerListener extends FPluginObject implements Listener
 
         if (shulkerManager.tryOpenBox(item, player, player.getInventory().getHeldItemSlot()))
             player.swingHand(Objects.requireNonNull(e.getHand()));
+    }
+
+    @EventHandler
+    public void onInvClick(InventoryClickEvent e)
+    {
+        var clicked = e.getClickedInventory();
+        var inv = e.getInventory();
+        if (clicked == null || inv.getType() != InventoryType.SHULKER_BOX) return;
+
+        var openMeta = shulkerManager.getOpenMeta(inv);
+        if (openMeta == null)
+            return;
+
+        if (openMeta.stack().isSimilar(e.getCurrentItem()))
+            e.setCancelled(true);
     }
 
     @EventHandler

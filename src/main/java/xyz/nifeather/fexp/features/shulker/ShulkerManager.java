@@ -64,6 +64,17 @@ public class ShulkerManager
                 .findFirst().orElse(null);
     }
 
+    public boolean isManagedInventory(Inventory inventory)
+    {
+        return playerInventoryMap.containsKey(inventory);
+    }
+
+    @Nullable
+    public OpenMeta getOpenMeta(Inventory inventory)
+    {
+        return playerInventoryMap.getOrDefault(inventory, null);
+    }
+
     public boolean openingBox(Player player)
     {
         return getPlayerEntryMeta(player) != null;
