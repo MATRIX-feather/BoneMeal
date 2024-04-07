@@ -85,6 +85,7 @@ root:
         - minecraft:disabled_2
 
       # Mob whitelist, only allow players to catch these mobs
+      # Disabled when the list is empty
       #
       # Example:
       # mob_whitelist:
