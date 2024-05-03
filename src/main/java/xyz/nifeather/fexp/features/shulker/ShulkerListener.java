@@ -7,6 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -70,6 +71,21 @@ public class ShulkerListener extends FPluginObject implements Listener
 
         if (shulkerManager.tryOpenBox(item, player, player.getInventory().getHeldItemSlot()))
             player.swingHand(Objects.requireNonNull(e.getHand()));
+    }
+
+    @EventHandler
+    public void onPlaceDown(BlockPlaceEvent e)
+    {
+        var player = e.getPlayer();
+
+        var entryMeta = shulkerManager.getPlayerEntryMeta(player);
+        if (entryMeta == null) return;
+
+        if (entryMeta.getValue().stack().isSimilar(e.getItemInHand()))
+            e.setCancelled(true);
+
+        if (shulkerManager.openingBox(player))
+            shulkerManager.closeBox(player);
     }
 
     @EventHandler
