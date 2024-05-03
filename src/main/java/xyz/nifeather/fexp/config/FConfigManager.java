@@ -10,7 +10,7 @@ import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.*;
 
-public class FConfigManager extends PluginConfigManager
+public class FConfigManager extends PlCfgMgrNew
 {
     public FConfigManager(FeatherExperience plugin)
     {
