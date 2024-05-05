@@ -15,6 +15,7 @@ import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.features.bossbar.easings.Easing;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -58,7 +59,7 @@ public class BossbarHolder extends FPluginObject
     private final Bindable<Boolean> enableBossbar = new Bindable<>(false);
     private final Bindable<Boolean> wardenBossbarShowAnger = new Bindable<>(false);
 
-    private void update()
+    private synchronized void update()
     {
         if (this.disposed.get()) return;
 
@@ -70,6 +71,14 @@ public class BossbarHolder extends FPluginObject
 
         var percent = (float) (bindingEntity.getHealth() / bindingEntity.getMaxHealth());
         bindingBossbar.progress(percent);
+
+        if (bindingEntity.isDead())
+        {
+            logger.warn("%s is dead but it's binding bossbar is alive?!".formatted(bindingEntity));
+            dispose();
+
+            return;
+        }
 
         if (plugin.getCurrentTick() % 10 == 0)
         {
@@ -114,16 +123,16 @@ public class BossbarHolder extends FPluginObject
 
     private final AtomicBoolean disposed = new AtomicBoolean(false);
 
-    public void dispose()
+    public synchronized void dispose()
     {
         var bindingBossbar = this.bindingBossbar.get();
         if (bindingBossbar != null)
         {
-            bindingBossbar.viewers().forEach(bossBarViewer ->
+            for (var viewer : bindingBossbar.viewers())
             {
-                if (bossBarViewer instanceof Audience audience)
+                if (viewer instanceof Audience audience)
                     audience.hideBossBar(bindingBossbar);
-            });
+            }
         }
 
         wardenBossbarShowAnger.unBindAll();
