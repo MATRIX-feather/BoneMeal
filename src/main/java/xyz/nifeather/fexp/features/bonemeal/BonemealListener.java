@@ -57,7 +57,7 @@ public class BonemealListener extends FPluginObject implements Listener
 
         var world = targetBlock.getWorld();
         var location = targetBlock.getLocation().add(0.5, 0.5, 0.5);
-        world.spawnParticle(Particle.VILLAGER_HAPPY, location, 20, 0.25, 0.25, 0.25);
+        world.spawnParticle(Particle.HAPPY_VILLAGER, location, 20, 0.25, 0.25, 0.25);
 
         e.setItem(new ItemStack(Material.AIR, 64));
 
@@ -142,7 +142,7 @@ public class BonemealListener extends FPluginObject implements Listener
         // Spawn particle and play sound
         var world = block.getWorld();
         var location = block.getLocation().add(0.5, 0.5, 0.5);
-        world.spawnParticle(Particle.VILLAGER_HAPPY, location, 20, 0.25, 0.25, 0.25);
+        world.spawnParticle(Particle.HAPPY_VILLAGER, location, 20, 0.25, 0.25, 0.25);
         world.playSound(location, Sound.ITEM_BONE_MEAL_USE, 1, 1);
     }
 }

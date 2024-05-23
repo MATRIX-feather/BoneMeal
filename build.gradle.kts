@@ -8,10 +8,10 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     `maven-publish`
-    id("io.papermc.paperweight.userdev") version "1.5.5"
+    id("io.papermc.paperweight.userdev") version "1.7.1"
     id("xyz.jpenilla.run-paper") version "2.0.1" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Generates plugin.yml
-    id("com.github.johnrengelman.shadow") version "7.1.2" // Shadow PluginBase
+    id("io.github.goooler.shadow") version "8.1.7" // Shadow PluginBase
 }
 
 repositories {
@@ -77,7 +77,7 @@ dependencies {
 group = "xyz.nifeather.fexp"
 version = "${project.property("project_version")}"
 description = "Feather Experience!"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
