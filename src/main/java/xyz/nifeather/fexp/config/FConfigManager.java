@@ -10,7 +10,7 @@ import xyz.nifeather.fexp.FeatherExperience;
 
 import java.util.*;
 
-public class FConfigManager extends PlCfgMgrNew
+public class FConfigManager extends PluginConfigManager
 {
     public FConfigManager(FeatherExperience plugin)
     {
@@ -37,7 +37,7 @@ public class FConfigManager extends PlCfgMgrNew
         {
             if (o.excludeFromInit()) continue;
 
-            var val = getOrDefault(Object.class, (ConfigOption<Object>) o);
+            var val = getOrDefault((ConfigOption<Object>) o, Object.class);
 
             if (!val.equals(o.getDefault())) map.put(o.node(), val);
         }
@@ -53,7 +53,7 @@ public class FConfigManager extends PlCfgMgrNew
         //更新配置
         int targetVersion = 7;
 
-        var configVersion = getOrDefault(Integer.class, FConfigOptions.VERSION);
+        var configVersion = getOrDefault(FConfigOptions.VERSION, 0);
 
         if (configVersion < targetVersion)
         {

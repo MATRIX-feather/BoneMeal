@@ -68,12 +68,12 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                 displayName, targetClass, func, new FormattableMessage(plugin, typeName), (args) -> List.of());
     }
 
-    private ISubCommand getList(String optionName, ConfigOption<?> option,
+    private ISubCommand getList(String optionName, ConfigOption<List<String>> option,
                                 @Nullable FormattableMessage displayName)
     {
         var targetDisplay = displayName == null ? new FormattableMessage(plugin, optionName) : displayName;
 
-        var bindableList = config.getBindableList(String.class, option);
+        var bindableList = config.getBindableList(option);
 
         return CommandBuilder.builder().startNew()
                 .name(optionName)
@@ -113,6 +113,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                     if (operation.equalsIgnoreCase("add"))
                     {
                         var value = args.get(1);
+
                         try
                         {
                             // 先预先检查一遍是否存在

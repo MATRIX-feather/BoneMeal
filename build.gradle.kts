@@ -64,7 +64,14 @@ dependencies {
 
     //implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 
-    implementation("com.github.XiaMoZhiShi:PluginBase:${project.property("pluginbase_version")}")
+    var pbVersion = if (project.property("pluginbase_use_local")!!.equals("true"))
+                        project.property("pluginbase_local")
+                    else
+                        project.property("pluginbase_version");
+
+    System.out.println("[PluginBase] Will use PluginBase version ${pbVersion}")
+
+    implementation("com.github.XiaMoZhiShi:PluginBase:${pbVersion}")
     {
         exclude("com.google.code.gson", "gson")
     }

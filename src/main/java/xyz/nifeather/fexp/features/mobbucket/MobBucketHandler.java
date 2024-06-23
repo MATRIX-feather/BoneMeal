@@ -31,9 +31,9 @@ public class MobBucketHandler extends FPluginObject
     {
         configManager.bind(enabled, FConfigOptions.VILLAGER_EGG);
 
-        disabledWorlds = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS);
-        disabledMobs = configManager.getBindableList(String.class, FConfigOptions.EGG_DISABLED_MOBS);
-        whitelist = configManager.getBindableList(String.class, FConfigOptions.EGG_WHITELIST);
+        disabledWorlds = configManager.getBindableList(FConfigOptions.EGG_DISABLED_WORLDS);
+        disabledMobs = configManager.getBindableList(FConfigOptions.EGG_DISABLED_MOBS);
+        whitelist = configManager.getBindableList(FConfigOptions.EGG_WHITELIST);
     }
 
     /**
