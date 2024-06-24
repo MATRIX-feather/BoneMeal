@@ -41,7 +41,7 @@ public class MessageUtils extends FPluginObject
         for (var cc : c)
             finalComponent = finalComponent.append(cc);
 
-        var prefix = new FormattableMessage(plugin, config.getOrDefault(String.class, FConfigOptions.MESSAGE_PREFIX));
+        var prefix = new FormattableMessage(plugin, config.getOrDefault(FConfigOptions.MESSAGE_PREFIX));
 
         return prefix
                 .withLocale(getLocale(sender))

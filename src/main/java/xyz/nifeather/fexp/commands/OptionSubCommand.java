@@ -209,7 +209,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
                                 CommandStrings.optionValueString()
                                         .withLocale(MessageUtils.getLocale(sender))
                                         .resolve("what", targetDisplay, null)
-                                        .resolve("value", config.get(targetClass, option) + "")));
+                                        .resolve("value", config.get(option) + "")));
 
                         return true;
                     }
