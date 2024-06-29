@@ -19,27 +19,12 @@ public class MobBucketListener extends FPluginObject implements Listener
 {
     private final MobBucketHandler bucketHandler = new MobBucketHandler();
 
-    @EventHandler
-    public void onThrow(ProjectileLaunchEvent e)
-    {
-        var owner = e.getEntity().getOwnerUniqueId();
-        if (owner == null || !blockedUUIDs.contains(owner)) return;
-
-        blockedUUIDs.remove(owner);
-        e.setCancelled(true);
-    }
-
-    private final List<UUID> blockedUUIDs = new ObjectArrayList<>();
-
     private void onEntityInteract(PlayerInteractEntityEvent e)
     {
         var item = e.getPlayer().getEquipment().getItem(e.getHand());
 
-        if (blockedUUIDs.contains(e.getPlayer().getUniqueId())
-                || !e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
-        {
+        if (!e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
             return;
-        }
 
         if (bucketHandler.onInteract(item, e.getRightClicked(), e.getPlayer()))
         {
@@ -47,8 +32,6 @@ public class MobBucketListener extends FPluginObject implements Listener
 
             if (nmsPlayer.gameMode.isSurvival())
                 item.setAmount(item.getAmount() - 1);
-
-            blockedUUIDs.add(e.getPlayer().getUniqueId());
 
             e.setCancelled(true);
         }

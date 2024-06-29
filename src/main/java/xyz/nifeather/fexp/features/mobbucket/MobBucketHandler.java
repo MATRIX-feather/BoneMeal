@@ -73,6 +73,8 @@ public class MobBucketHandler extends FPluginObject
     {
         if (clickedEntity == null) return false;
 
+        if (!clickedEntity.isValid()) return false;
+
         if (disabledWorlds.stream().anyMatch(s -> s.equalsIgnoreCase(clickedEntity.getWorld().getName())))
             return false;
 
@@ -121,15 +123,12 @@ public class MobBucketHandler extends FPluginObject
 
         newItem.setItemMeta(meta);
 
-        this.scheduleOn(clickedEntity, () ->
-        {
-            var world = clickedEntity.getWorld();
-            world.dropItem(clickedEntity.getLocation(), newItem);
-            clickedEntity.remove();
+        clickedEntity.remove();
 
-            world.playSound(clickedEntity.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1, 1);
-        });
+        var world = clickedEntity.getWorld();
+        world.dropItem(clickedEntity.getLocation(), newItem);
 
+        world.playSound(clickedEntity.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1, 1);
         return true;
     }
 }
