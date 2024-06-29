@@ -93,5 +93,15 @@ root:
       #   - minecraft:allay
       mob_whitelist: []
 
+    # Minecart speed settings
+    # It will allow minecarts to run at different speed depend on which block it runs on
+    minecart:
+      # Enable this feature?
+      enabled: true
+
+      # Speed multipliers
+      configs:
+        - "minecraft:bedrock=1.5"
+
   # Do not touch unless you know what you're doing!
-  version: 7
+  version: 8

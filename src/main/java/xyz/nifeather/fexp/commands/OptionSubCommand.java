@@ -73,7 +73,7 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
     {
         var targetDisplay = displayName == null ? new FormattableMessage(plugin, optionName) : displayName;
 
-        var bindableList = config.getBindableList(option);
+        var bindableList = config.getBindableList(String.class, option);
 
         return CommandBuilder.builder().startNew()
                 .name(optionName)

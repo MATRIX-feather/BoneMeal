@@ -15,14 +15,12 @@ import xiamomc.pluginbase.Configuration.IConfigManager;
 import xiamomc.pluginbase.Utilities.ConfigSerializeUtils;
 import xiamomc.pluginbase.XiaMoJavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class PlCfgMgrNew implements IConfigManager
 {
+    private static final Logger logger = LoggerFactory.getLogger(PlCfgMgrNew.class);
     protected FileConfiguration backendConfig;
     protected final XiaMoJavaPlugin plugin;
 
@@ -36,15 +34,26 @@ public class PlCfgMgrNew implements IConfigManager
 
     //region get and get bindable methods
 
-    public <T> T get(Class<T> type, ConfigOption<T> option)
+    public <T> T get(ConfigOption<T> option)
     {
-        return get(type, option.node());
+        Class<?> clazz = option.getDefault().getClass();
+
+        if (option.getDefault() instanceof List<?>)
+            clazz = List.class;
+
+        return get((Class<? extends T>) clazz, option.node());
     }
 
     @Override
     @Nullable
     public <T> T get(Class<T> type, ConfigNode node)
     {
+        if (type == Object.class)
+        {
+            logger.warn("[PluginBase] Trying to get an object instance from a node!");
+            Thread.dumpStack();
+        }
+
         var value = backendConfig.get(node.toString());
 
         if (value == null)
@@ -62,8 +71,10 @@ public class PlCfgMgrNew implements IConfigManager
                 if (num != null) return (T) num;
             }
 
-            plugin.getSLF4JLogger().warn("Unable to convert value under node '%s' from '%s' to '%s'"
+            logger.warn("Unable to convert value under node '%s' from '%s' to '%s'"
                     .formatted(node, value.getClass().getSimpleName(), type.getSimpleName()));
+
+            Thread.dumpStack();
 
             return null;
         }
@@ -84,9 +95,9 @@ public class PlCfgMgrNew implements IConfigManager
         return val;
     }
 
-    public <T> T getOrDefault(Class<T> type, ConfigOption<T> option)
+    public <T> T getOrDefault(ConfigOption<T> option)
     {
-        var val = get(type, option);
+        var val = get(option);
 
         if (val == null)
         {
@@ -98,9 +109,9 @@ public class PlCfgMgrNew implements IConfigManager
         return val;
     }
 
-    public <T> T getOrDefault(Class<T> type, ConfigOption<T> option, @Nullable T defaultValue)
+    public <T> T getOrDefault(ConfigOption<T> option, @Nullable T defaultValue)
     {
-        var val = get(type, option);
+        var val = get(option);
 
         if (val == null)
         {
@@ -142,14 +153,14 @@ public class PlCfgMgrNew implements IConfigManager
         return getBindable(type, path, null);
     }
 
-    public <T> Bindable<T> getBindable(Class<T> type, ConfigOption<T> path, T defaultValue)
+    public <T> Bindable<T> getBindable(ConfigOption<T> option)
     {
-        return getBindable(type, path.node(), defaultValue);
+        return getBindable(option, option.getDefault());
     }
 
-    public <T> Bindable<T> getBindable(Class<T> type, ConfigOption<T> option)
+    public <T> Bindable<T> getBindable(ConfigOption<T> path, T defaultValue)
     {
-        return getBindable(type, option, option.getDefault());
+        return getBindable((Class<T>) path.getDefault().getClass(), path.node(), defaultValue);
     }
 
     private Map<String, BindableList<?>> bindableLists;
@@ -160,13 +171,14 @@ public class PlCfgMgrNew implements IConfigManager
             bindableLists = new Object2ObjectOpenHashMap<>();
     }
 
-    public <T> BindableList<T> getBindableList(Class<T> clazz, ConfigOption option)
+    public <T> BindableList<T> getBindableList(Class<T> elementClass, ConfigOption<List<T>> option)
     {
         ensureBindableListNotNull();
 
         //System.out.println("GET LIST " + option.toString());
 
         var val = bindableLists.getOrDefault(option.node().toString(), null);
+        logger.warn("Rersult from cache: " +val);
         if (val != null)
         {
             //System.out.println("FIND EXISTING LIST, RETURNING " + val);
@@ -174,13 +186,21 @@ public class PlCfgMgrNew implements IConfigManager
         }
 
         List<?> originalList = backendConfig.getList(option.node().toString(), new ArrayList<T>());
-        originalList.removeIf(listVal -> !clazz.isInstance(listVal)); //Don't work for somehow
+        logger.warn("List contents: " + originalList);
+
+        originalList.removeIf(listVal ->
+        {
+            logger.warn("Clazz is " + elementClass + " nad instanec is "+ listVal.getClass());
+            return !elementClass.isInstance(listVal);
+        }); //Don't work for somehow
+        logger.warn("After remove");
 
         var list = new BindableList<T>();
         list.addAll((List<T>)originalList);
 
         list.onListChanged((diffList, reason) ->
         {
+            logger.warn("Change! diff is '%s' and reason is '%s'".formatted(diffList, reason));
             //System.out.println("LIST CHANGED: " + diffList + " WITH REASON " + reason);
             backendConfig.set(option.node().toString(), list);
             save();
@@ -204,19 +224,19 @@ public class PlCfgMgrNew implements IConfigManager
         bindable.bindTo(bb);
     }
 
-    public <T> void bind(Bindable<T> bindable, ConfigOption option)
+    public <T> void bind(Bindable<T> bindable, ConfigOption<T> option)
     {
-        var bb = this.getBindable(option.getDefault().getClass(), option);
+        var bb = this.getBindable(option);
 
         if (bindable.getClass().isInstance(bb))
-            bindable.bindTo((Bindable<T>) bb);
+            bindable.bindTo(bb);
         else
             throw new IllegalArgumentException("尝试将一个Bindable绑定在不兼容的配置(" + option + ")上");
     }
 
-    public <T> void bind(Class<T> clazz, BindableList<T> bindable, ConfigOption option)
+    public <T> void bind(BindableList<T> bindable, ConfigOption<List<T>> option, Class<T> elementClass)
     {
-        var bb = this.getBindableList(clazz, option);
+        var bb = this.getBindableList(elementClass, option);
 
         if (bindable.getClass().isInstance(bb))
             bindable.bindTo(bb);
@@ -233,6 +253,9 @@ public class PlCfgMgrNew implements IConfigManager
         //spigot的配置管理器没有返回值
         backendConfig.set(node.toString(), value);
         save();
+
+        if (value instanceof List<?>)
+            Thread.dumpStack();
 
         if (!isInternal)
         {
@@ -290,14 +313,17 @@ public class PlCfgMgrNew implements IConfigManager
     @Override
     public void reload()
     {
+        backendConfig = plugin.getConfig();
+
+        logger.warn("Before reload List " + getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS));
+
         // First, reload backend config
         plugin.reloadConfig();
-        backendConfig = plugin.getConfig();
+
+        logger.warn("After reload List " + getBindableList(String.class, FConfigOptions.EGG_DISABLED_WORLDS));
 
         // Ensure bindableLists is not null
         ensureBindableListNotNull();
-
-        var logger = plugin.getSLF4JLogger();
 
         // Update values
         stringConfigNodeMap.forEach((str, bindable) ->
@@ -315,7 +341,7 @@ public class PlCfgMgrNew implements IConfigManager
             }
             catch (Throwable t)
             {
-                logger.warn("Unable to set value for Bindable bind to config node %s: %s".formatted(str, t.getMessage()));
+                logger.warn("[PluginBase] Unable to set value for Bindable bind to config node %s: %s".formatted(str, t.getMessage()));
                 t.printStackTrace();
             }
         });

@@ -37,7 +37,7 @@ public class FConfigManager extends PluginConfigManager
         {
             if (o.excludeFromInit()) continue;
 
-            var val = getOrDefault((ConfigOption<Object>) o, Object.class);
+            var val = getOrDefault(o);
 
             if (!val.equals(o.getDefault())) map.put(o.node(), val);
         }
@@ -51,7 +51,7 @@ public class FConfigManager extends PluginConfigManager
         super.reload();
 
         //更新配置
-        int targetVersion = 7;
+        int targetVersion = 8;
 
         var configVersion = getOrDefault(FConfigOptions.VERSION, 0);
 

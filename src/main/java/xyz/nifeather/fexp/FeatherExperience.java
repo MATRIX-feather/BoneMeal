@@ -10,10 +10,10 @@ import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.features.bonemeal.BonemealListener;
 import xyz.nifeather.fexp.features.bossbar.BossbarListener;
 import xyz.nifeather.fexp.features.deepslateFarm.DeepslateListener;
+import xyz.nifeather.fexp.features.minecart.MinecartListener;
 import xyz.nifeather.fexp.features.mobbucket.MobBucketListener;
 import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.features.trident.TridentSaverListener;
-import xyz.nifeather.fexp.listener.TabCompleteListener;
 import xyz.nifeather.fexp.messages.FMessageStore;
 import xyz.nifeather.fexp.misc.integrations.coreprotect.CoreProtectIntegration;
 
@@ -58,8 +58,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new BossbarListener(), this);
         pluginManager.registerEvents(new TridentSaverListener(), this);
         pluginManager.registerEvents(new MobBucketListener(), this);
-
-        pluginManager.registerEvents(new TabCompleteListener(), this);
+        pluginManager.registerEvents(new MinecartListener(), this);
 
         softDeps.setHandle("CoreProtect", pl ->
                 dependencyManager.cache(new CoreProtectIntegration()), true);
