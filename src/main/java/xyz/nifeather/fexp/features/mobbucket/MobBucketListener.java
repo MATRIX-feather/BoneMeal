@@ -2,6 +2,7 @@ package xyz.nifeather.fexp.features.mobbucket;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.bukkit.GameMode;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -34,7 +35,22 @@ public class MobBucketListener extends FPluginObject implements Listener
                 item.setAmount(item.getAmount() - 1);
 
             e.setCancelled(true);
+            blockedUUIDs.add(e.getPlayer().getUniqueId());
         }
+    }
+
+    private final List<UUID> blockedUUIDs = new ObjectArrayList<>();
+
+    @EventHandler
+    public void onThrow(ProjectileLaunchEvent e)
+    {
+        if (e.getEntity().getType() != EntityType.EGG) return;
+
+        var owner = e.getEntity().getOwnerUniqueId();
+        if (owner == null) return;
+
+        if (blockedUUIDs.remove(owner))
+            e.setCancelled(true);
     }
 
     @EventHandler

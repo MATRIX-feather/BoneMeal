@@ -64,10 +64,9 @@ public class MobBucketHandler extends FPluginObject
     private CoreProtectIntegration coreProtectIntegration;
 
     /**
-     * Whether this operation operates successfully
      * @param item
      * @param clickedEntity
-     * @return
+     * @return Whether this operation operates successfully
      */
     private boolean onEmptyInteract(ItemStack item, @Nullable Entity clickedEntity)
     {
@@ -108,8 +107,10 @@ public class MobBucketHandler extends FPluginObject
         }
         catch (Throwable t)
         {
-            logger.warn("Can't find egg type for type " + clickedEntity.getType());
-            logger.warn("Using allay spawn egg as default...");
+            logger.warn("Can't find egg type for entity type " + clickedEntity.getType());
+            logger.warn("Not activating mob egg feature...");
+
+            return false;
         }
 
         newItem.setType(eggType);
