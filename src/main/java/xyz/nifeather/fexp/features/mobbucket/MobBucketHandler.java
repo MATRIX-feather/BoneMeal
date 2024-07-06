@@ -107,8 +107,8 @@ public class MobBucketHandler extends FPluginObject
         }
         catch (Throwable t)
         {
-            logger.warn("Can't find egg type for entity type " + clickedEntity.getType());
-            logger.warn("Not activating mob egg feature...");
+            //logger.warn("Can't find egg type for entity type " + clickedEntity.getType());
+            //logger.warn("Not activating mob egg feature...");
 
             return false;
         }
