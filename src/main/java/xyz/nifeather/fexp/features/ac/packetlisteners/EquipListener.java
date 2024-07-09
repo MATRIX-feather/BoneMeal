@@ -24,15 +24,6 @@ public class EquipListener extends AbstractListener
                     .build()
     );
 
-    private final List<Component> lores = List.of(
-            Component.text("关注夏沫之诗喵，赞助夏沫之诗谢谢喵")
-                     .color(TextColor.fromHexString("#ABCDEF")),
-
-            Component.empty(),
-
-            Component.text("不允许开透视喵！").color(TextColor.fromHexString("#ABCDEF"))
-    );
-
     @Override
     protected void onPacketSending(PacketSendEvent event)
     {
@@ -47,11 +38,8 @@ public class EquipListener extends AbstractListener
             var item = equipment.getItem();
 
             var patches = new Object2ObjectArrayMap<>(item.getComponents().getPatches());
-            AtomicBoolean haveName = new AtomicBoolean(false);
             patches.forEach((type, value) ->
             {
-                if (type == ComponentTypes.ITEM_NAME) haveName.set(true);
-
                 if (type != ComponentTypes.TRIM
                         && type != ComponentTypes.ENCHANTMENTS
                         && type != ComponentTypes.CUSTOM_MODEL_DATA
@@ -68,8 +56,6 @@ public class EquipListener extends AbstractListener
 
             item.setDamageValue(Integer.MAX_VALUE);
             item.setLegacyData(0);
-
-            item.setComponent(ComponentTypes.LORE, new ItemLore(this.lores));
         });
     }
 }
