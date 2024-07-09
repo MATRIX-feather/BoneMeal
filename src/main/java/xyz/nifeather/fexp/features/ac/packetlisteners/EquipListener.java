@@ -1,0 +1,75 @@
+package xyz.nifeather.fexp.features.ac.packetlisteners;
+
+import com.github.retrooper.packetevents.event.PacketSendEvent;
+import com.github.retrooper.packetevents.protocol.component.ComponentTypes;
+import com.github.retrooper.packetevents.protocol.component.builtin.item.ItemLore;
+import com.github.retrooper.packetevents.protocol.item.enchantment.Enchantment;
+import com.github.retrooper.packetevents.protocol.item.enchantment.type.EnchantmentTypes;
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.EquipmentSlot;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityEquipment;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class EquipListener extends AbstractListener
+{
+    private final List<Enchantment> fakeEnchantments = List.of(
+            Enchantment.builder()
+                    .type(EnchantmentTypes.SHARPNESS)
+                    .level(Byte.MAX_VALUE)
+                    .build()
+    );
+
+    private final List<Component> lores = List.of(
+            Component.text("关注夏沫之诗喵，赞助夏沫之诗谢谢喵")
+                     .color(TextColor.fromHexString("#ABCDEF")),
+
+            Component.empty(),
+
+            Component.text("不允许开透视喵！").color(TextColor.fromHexString("#ABCDEF"))
+    );
+
+    @Override
+    protected void onPacketSending(PacketSendEvent event)
+    {
+        if (event.getPacketType() != PacketType.Play.Server.ENTITY_EQUIPMENT) return;
+
+        var wrapper = new WrapperPlayServerEntityEquipment(event);
+        var user = event.getUser();
+        var userClientVersion = user.getClientVersion();
+
+        wrapper.getEquipment().forEach(equipment ->
+        {
+            var item = equipment.getItem();
+
+            var patches = new Object2ObjectArrayMap<>(item.getComponents().getPatches());
+            AtomicBoolean haveName = new AtomicBoolean(false);
+            patches.forEach((type, value) ->
+            {
+                if (type == ComponentTypes.ITEM_NAME) haveName.set(true);
+
+                if (type != ComponentTypes.TRIM
+                        && type != ComponentTypes.ENCHANTMENTS
+                        && type != ComponentTypes.CUSTOM_MODEL_DATA
+                        && type != ComponentTypes.ITEM_NAME)
+                {
+                    item.unsetComponent(type);
+                }
+            });
+
+            if (item.isEnchanted(userClientVersion))
+                item.setEnchantments(fakeEnchantments, userClientVersion);
+
+            item.setAmount(Integer.MAX_VALUE);
+
+            item.setDamageValue(Integer.MAX_VALUE);
+            item.setLegacyData(0);
+
+            item.setComponent(ComponentTypes.LORE, new ItemLore(this.lores));
+        });
+    }
+}

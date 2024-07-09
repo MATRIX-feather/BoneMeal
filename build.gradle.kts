@@ -47,6 +47,10 @@ repositories {
     maven {
         url = uri("https://maven.playpro.com")
     }
+
+    maven {
+        url = uri("https://repo.codemc.io/repository/maven-public/")
+    }
 }
 
 dependencies {
@@ -56,6 +60,8 @@ dependencies {
 
     //compileOnly(files("libs/CMILib1.4.3.5.jar"))
     //compileOnly(files("libs/Residence5.1.4.0.jar"))
+
+    implementation("com.github.retrooper:packetevents-spigot:${project.property("packetevents_version")}")
 
     implementation("org.bstats:bstats-bukkit:${project.property("bstats_version")}")
     {
