@@ -37,17 +37,21 @@ public class EquipListener extends AbstractListener
         {
             var item = equipment.getItem();
 
+            /*
             var patches = new Object2ObjectArrayMap<>(item.getComponents().getPatches());
             patches.forEach((type, value) ->
             {
                 if (type != ComponentTypes.TRIM
                         && type != ComponentTypes.ENCHANTMENTS
                         && type != ComponentTypes.CUSTOM_MODEL_DATA
-                        && type != ComponentTypes.ITEM_NAME)
+                        && type != ComponentTypes.ITEM_NAME
+                        && type != ComponentTypes.POTION_CONTENTS
+                        && type != ComponentTypes.BANNER_PATTERNS)
                 {
                     item.unsetComponent(type);
                 }
             });
+            */
 
             if (item.isEnchanted(userClientVersion))
                 item.setEnchantments(fakeEnchantments, userClientVersion);
