@@ -58,6 +58,8 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getList("mob_eggs.disabled_worlds", FConfigOptions.EGG_DISABLED_WORLDS, null));
         subCommands.add(getList("mob_eggs.disabled_mobs", FConfigOptions.EGG_DISABLED_MOBS, null));
         subCommands.add(getList("mob_eggs.mob_whitelist", FConfigOptions.EGG_WHITELIST, null));
+
+        subCommands.add(getToggle("protocol.component_whitelist", FConfigOptions.COMPONENT_WHITELIST));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,

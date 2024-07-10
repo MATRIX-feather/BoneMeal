@@ -41,6 +41,8 @@ public class FConfigOptions
     public static final ConfigOption<Boolean> MINECART = new ConfigOption<>(featureNode().append("minecart").append("enabled"), true);
     public static final ConfigOption<List<String>> MINECART_CONFIGS = new ConfigOption<>(featureNode().append("minecart").append("configs"), List.of("minecraft:bedrock=1.5"));
 
+    public static final ConfigOption<Boolean> COMPONENT_WHITELIST = new ConfigOption<>(featureNode().append("protocol").append("component_whitelist"), true);
+
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
     public static List<ConfigOption<?>> values()
