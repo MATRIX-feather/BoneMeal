@@ -47,6 +47,10 @@ repositories {
     maven {
         url = uri("https://maven.playpro.com")
     }
+    maven {
+        name = "glaremasters repo"
+        url = uri("https://repo.glaremasters.me/repository/towny/")
+    }
 }
 
 dependencies {
@@ -56,6 +60,8 @@ dependencies {
 
     //compileOnly(files("libs/CMILib1.4.3.5.jar"))
     //compileOnly(files("libs/Residence5.1.4.0.jar"))
+
+    compileOnly("com.palmergames.bukkit.towny:towny:${project.property("towny_version")}")
 
     implementation("org.bstats:bstats-bukkit:${project.property("bstats_version")}")
     {

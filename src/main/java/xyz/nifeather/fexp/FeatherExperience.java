@@ -63,6 +63,8 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         softDeps.setHandle("CoreProtect", pl ->
                 dependencyManager.cache(new CoreProtectIntegration()), true);
 
+        softDeps.setHandle("Towny", pl -> MobBucketListener.townyInstalled = true, true);
+
         dependencyManager.cache(new FConfigManager(this));
 
         var cmdHelper = new FCommandHelper();
