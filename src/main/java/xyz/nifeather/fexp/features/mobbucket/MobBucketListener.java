@@ -1,5 +1,9 @@
 package xyz.nifeather.fexp.features.mobbucket;
 
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.TownyPermission;
+import com.palmergames.bukkit.towny.utils.CombatUtil;
+import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -20,12 +24,21 @@ public class MobBucketListener extends FPluginObject implements Listener
 {
     private final MobBucketHandler bucketHandler = new MobBucketHandler();
 
+    public static boolean townyInstalled = false;
+
     private void onEntityInteract(PlayerInteractEntityEvent e)
     {
         var item = e.getPlayer().getEquipment().getItem(e.getHand());
 
-        if (!e.getPlayer().hasPermission(CommonPermissions.mobEggUse))
+        var player = e.getPlayer();
+        if (!player.hasPermission(CommonPermissions.mobEggUse))
             return;
+
+        if (townyInstalled)
+        {
+            if (!PlayerCacheUtil.getCachePermission(player, e.getRightClicked().getLocation(), item.getType(), TownyPermission.ActionType.ITEM_USE))
+                return;
+        }
 
         if (bucketHandler.onInteract(item, e.getRightClicked(), e.getPlayer()))
         {
@@ -35,7 +48,10 @@ public class MobBucketListener extends FPluginObject implements Listener
                 item.setAmount(item.getAmount() - 1);
 
             e.setCancelled(true);
-            blockedUUIDs.add(e.getPlayer().getUniqueId());
+
+            var playerUUID = e.getPlayer().getUniqueId();
+            if (blockedUUIDs.stream().noneMatch(uuid -> uuid.equals(playerUUID)))
+                blockedUUIDs.add(playerUUID);
         }
     }
 
@@ -49,7 +65,7 @@ public class MobBucketListener extends FPluginObject implements Listener
         var owner = e.getEntity().getOwnerUniqueId();
         if (owner == null) return;
 
-        if (blockedUUIDs.remove(owner))
+        if (blockedUUIDs.removeIf(uuid -> uuid.equals(owner)))
             e.setCancelled(true);
     }
 

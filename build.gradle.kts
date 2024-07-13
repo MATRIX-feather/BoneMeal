@@ -51,6 +51,11 @@ repositories {
     maven {
         url = uri("https://repo.codemc.io/repository/maven-public/")
     }
+
+    maven {
+        name = "glaremasters repo"
+        url = uri("https://repo.glaremasters.me/repository/towny/")
+    }
 }
 
 dependencies {
@@ -62,6 +67,8 @@ dependencies {
     //compileOnly(files("libs/Residence5.1.4.0.jar"))
 
     implementation("com.github.retrooper:packetevents-spigot:${project.property("packetevents_version")}")
+
+    compileOnly("com.palmergames.bukkit.towny:towny:${project.property("towny_version")}")
 
     implementation("org.bstats:bstats-bukkit:${project.property("bstats_version")}")
     {
