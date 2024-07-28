@@ -56,10 +56,10 @@ public final class FeatherExperience extends XiaMoJavaPlugin
     {
         super.onLoad();
 
-        ////PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
-        ////PacketEvents.getAPI().getSettings().reEncodeByDefault(true).checkForUpdates(false);
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().reEncodeByDefault(true).checkForUpdates(false);
 
-        ////PacketEvents.getAPI().load();
+        PacketEvents.getAPI().load();
     }
 
     @Override
@@ -92,11 +92,11 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         dependencyManager.cache(cmdHelper);
         dependencyManager.cacheAs(CommandHelper.class, cmdHelper);
         dependencyManager.cacheAs(MessageStore.class, new FMessageStore());
-        ////dependencyManager.cache(new ListenerHub());
+        dependencyManager.cache(new ListenerHub());
 
         this.metrics = new Metrics(this, 21211);
 
-        ////PacketEvents.getAPI().init();
+        PacketEvents.getAPI().init();
     }
 
     private ShulkerListener shulkerListener;
@@ -114,7 +114,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
             if (metrics != null)
                 metrics.shutdown();
 
-            //PacketEvents.getAPI().terminate();
+            PacketEvents.getAPI().terminate();
         }
         catch (Throwable t)
         {
