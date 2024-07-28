@@ -9,7 +9,10 @@ import java.util.List;
 
 public class FCommandHelper extends CommandHelper<FeatherExperience>
 {
-    private final List<IPluginCommand> commands = List.of(new MainPluginCommand());
+    private final List<IPluginCommand> commands = List.of(
+            new MainPluginCommand(),
+            new MainTogglePvPCommand()
+    );
 
     @Override
     public List<IPluginCommand> getCommands()

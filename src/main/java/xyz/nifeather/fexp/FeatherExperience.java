@@ -16,6 +16,7 @@ import xyz.nifeather.fexp.features.bossbar.BossbarListener;
 import xyz.nifeather.fexp.features.deepslateFarm.DeepslateListener;
 import xyz.nifeather.fexp.features.minecart.MinecartListener;
 import xyz.nifeather.fexp.features.mobbucket.MobBucketListener;
+import xyz.nifeather.fexp.features.pvp.PvPListener;
 import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.features.trident.TridentSaverListener;
 import xyz.nifeather.fexp.messages.FMessageStore;
@@ -55,10 +56,10 @@ public final class FeatherExperience extends XiaMoJavaPlugin
     {
         super.onLoad();
 
-        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
-        PacketEvents.getAPI().getSettings().reEncodeByDefault(true).checkForUpdates(false);
+        ////PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        ////PacketEvents.getAPI().getSettings().reEncodeByDefault(true).checkForUpdates(false);
 
-        PacketEvents.getAPI().load();
+        ////PacketEvents.getAPI().load();
     }
 
     @Override
@@ -76,6 +77,10 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new MinecartListener(), this);
         pluginManager.registerEvents(new BeaconListener(), this);
 
+        var pvpListener = new PvPListener();
+        pluginManager.registerEvents(pvpListener, this);
+        dependencyManager.cache(pvpListener);
+
         softDeps.setHandle("CoreProtect", pl ->
                 dependencyManager.cache(new CoreProtectIntegration()), true);
 
@@ -87,11 +92,11 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         dependencyManager.cache(cmdHelper);
         dependencyManager.cacheAs(CommandHelper.class, cmdHelper);
         dependencyManager.cacheAs(MessageStore.class, new FMessageStore());
-        dependencyManager.cache(new ListenerHub());
+        ////dependencyManager.cache(new ListenerHub());
 
         this.metrics = new Metrics(this, 21211);
 
-        PacketEvents.getAPI().init();
+        ////PacketEvents.getAPI().init();
     }
 
     private ShulkerListener shulkerListener;
@@ -109,7 +114,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
             if (metrics != null)
                 metrics.shutdown();
 
-            PacketEvents.getAPI().terminate();
+            //PacketEvents.getAPI().terminate();
         }
         catch (Throwable t)
         {

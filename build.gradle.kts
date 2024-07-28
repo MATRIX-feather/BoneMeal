@@ -115,6 +115,8 @@ bukkit {
         var mainCommand = register("fexp").get();
 
         mainCommand.aliases = listOf("fe");
+
+        register("fpvp")
     }
 
     val permissionRoot = "fexp"
