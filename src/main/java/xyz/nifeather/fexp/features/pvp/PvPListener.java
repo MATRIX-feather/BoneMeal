@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import xyz.nifeather.fexp.FPluginObject;
+import xyz.nifeather.fexp.features.pvp.storage.PVPStorage;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +17,14 @@ import java.util.UUID;
 public class PvPListener extends FPluginObject implements Listener
 {
     private final List<UUID> noPvpPlayers = Collections.synchronizedList(new ObjectArrayList<>());
+
+    private final PVPStorage storage = new PVPStorage();
+
+    public PvPListener()
+    {
+        storage.initializeStorage();
+        noPvpPlayers.addAll(storage.getDisabledPlayers());
+    }
 
     public PvPStatus toggleFor(Player player)
     {
@@ -60,5 +69,11 @@ public class PvPListener extends FPluginObject implements Listener
             event.setCancelled(true);
             return;
         }
+    }
+
+    public void dispose()
+    {
+        storage.setPlayers(this.noPvpPlayers);
+        storage.saveConfiguration();
     }
 }

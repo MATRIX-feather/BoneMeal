@@ -50,6 +50,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
     }
 
     private Metrics metrics;
+    private PvPListener pvpListener;
 
     @Override
     public void onLoad()
@@ -77,7 +78,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new MinecartListener(), this);
         pluginManager.registerEvents(new BeaconListener(), this);
 
-        var pvpListener = new PvPListener();
+        pvpListener = new PvPListener();
         pluginManager.registerEvents(pvpListener, this);
         dependencyManager.cache(pvpListener);
 
@@ -113,6 +114,9 @@ public final class FeatherExperience extends XiaMoJavaPlugin
 
             if (metrics != null)
                 metrics.shutdown();
+
+            if (pvpListener != null)
+                pvpListener.dispose();
 
             PacketEvents.getAPI().terminate();
         }

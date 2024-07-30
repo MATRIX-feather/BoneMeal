@@ -45,6 +45,7 @@ public class FConfigOptions
 
     public static final ConfigOption<String> PVP_ENABLED_MESSAGE = new ConfigOption<>(featureNode().append("pvp").append("enabled_message"), "<color:#e0f2f1>PVP已启用</color>");
     public static final ConfigOption<String> PVP_DISABLED_MESSAGE = new ConfigOption<>(featureNode().append("pvp").append("disabled_message"), "<color:#e0f2f1>PVP已禁用</color>");
+    public static final ConfigOption<List<String>> PVP_DISABLED_PLAYERS = new ConfigOption<>(featureNode().append("pvp").append("disabled_players"), List.of(""));
 
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
