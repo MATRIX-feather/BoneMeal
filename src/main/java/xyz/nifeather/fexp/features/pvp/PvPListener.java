@@ -1,6 +1,7 @@
 package xyz.nifeather.fexp.features.pvp;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,12 +49,16 @@ public class PvPListener extends FPluginObject implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHurtEntity(EntityDamageByEntityEvent event)
     {
-        if (noPvpPlayers.stream().anyMatch(uuid ->
-        {
-            return uuid.equals(event.getEntity().getUniqueId()) || uuid.equals(event.getDamager().getUniqueId());
-        }))
+        if (isPlayerDisabledPVP(event.getEntity().getUniqueId()))
         {
             event.setCancelled(true);
+            return;
+        }
+
+        if (isPlayerDisabledPVP(event.getDamager().getUniqueId()) && event.getEntity().getType() == EntityType.PLAYER)
+        {
+            event.setCancelled(true);
+            return;
         }
     }
 }
