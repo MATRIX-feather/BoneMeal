@@ -35,12 +35,12 @@ public class PvPListener extends FPluginObject implements Listener
         }
     }
 
-    public boolean isPvPDisabledFor(Player player)
+    public boolean isPlayerDisabledPVP(Player player)
     {
-        return isPvPDisabledFor(player.getUniqueId());
+        return isPlayerDisabledPVP(player.getUniqueId());
     }
 
-    public boolean isPvPDisabledFor(UUID player)
+    public boolean isPlayerDisabledPVP(UUID player)
     {
         return noPvpPlayers.stream().anyMatch(uuid -> uuid.equals(player));
     }
@@ -48,7 +48,12 @@ public class PvPListener extends FPluginObject implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHurtEntity(EntityDamageByEntityEvent event)
     {
-        if (this.isPvPDisabledFor(event.getEntity().getUniqueId()))
+        if (noPvpPlayers.stream().anyMatch(uuid ->
+        {
+            return uuid.equals(event.getEntity().getUniqueId()) || uuid.equals(event.getDamager().getUniqueId());
+        }))
+        {
             event.setCancelled(true);
+        }
     }
 }
