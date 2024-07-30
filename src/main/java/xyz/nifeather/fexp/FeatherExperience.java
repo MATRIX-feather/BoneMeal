@@ -17,6 +17,7 @@ import xyz.nifeather.fexp.features.deepslateFarm.DeepslateListener;
 import xyz.nifeather.fexp.features.minecart.MinecartListener;
 import xyz.nifeather.fexp.features.mobbucket.MobBucketListener;
 import xyz.nifeather.fexp.features.pvp.PvPListener;
+import xyz.nifeather.fexp.features.serverLink.ServerLinkListener;
 import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.features.trident.TridentSaverListener;
 import xyz.nifeather.fexp.messages.FMessageStore;
@@ -77,6 +78,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new MobBucketListener(), this);
         pluginManager.registerEvents(new MinecartListener(), this);
         pluginManager.registerEvents(new BeaconListener(), this);
+        pluginManager.registerEvents(new ServerLinkListener(), this);
 
         pvpListener = new PvPListener();
         pluginManager.registerEvents(pvpListener, this);
