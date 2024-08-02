@@ -58,17 +58,14 @@ public class PvPListener extends FPluginObject implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHurtEntity(EntityDamageByEntityEvent event)
     {
-        if (isPlayerDisabledPVP(event.getEntity().getUniqueId()))
-        {
-            event.setCancelled(true);
-            return;
-        }
+        var entity = event.getEntity();
+        var damager = event.getDamager();
 
-        if (isPlayerDisabledPVP(event.getDamager().getUniqueId()) && event.getEntity().getType() == EntityType.PLAYER)
-        {
-            event.setCancelled(true);
+        if (entity.getType() != EntityType.PLAYER && damager.getType() != EntityType.PLAYER)
             return;
-        }
+
+        if (isPlayerDisabledPVP(damager.getUniqueId()) || isPlayerDisabledPVP(entity.getUniqueId()))
+            event.setCancelled(true);
     }
 
     public void dispose()
