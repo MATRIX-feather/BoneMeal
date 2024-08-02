@@ -61,7 +61,7 @@ public class PvPListener extends FPluginObject implements Listener
         var entity = event.getEntity();
         var damager = event.getDamager();
 
-        if (entity.getType() != EntityType.PLAYER && damager.getType() != EntityType.PLAYER)
+        if (entity.getType() != EntityType.PLAYER || damager.getType() != EntityType.PLAYER)
             return;
 
         if (isPlayerDisabledPVP(damager.getUniqueId()) || isPlayerDisabledPVP(entity.getUniqueId()))
