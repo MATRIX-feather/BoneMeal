@@ -52,6 +52,8 @@ public class FConfigOptions
 
     public static final ConfigOption<Boolean> ALLOW_TORCH_CROSSBOW = new ConfigOption<>(featureNode().append("torch_crossbow").append("enabled"), true);
 
+    public static final ConfigOption<Boolean> NO_EXP_COOLDOWN = new ConfigOption<>(featureNode().append("no_exp_cooldown").append("enabled"), false);
+
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
     public static List<ConfigOption<?>> values()

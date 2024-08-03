@@ -21,6 +21,7 @@ import xyz.nifeather.fexp.features.pvp.PvPListener;
 import xyz.nifeather.fexp.features.serverLink.ServerLinkListener;
 import xyz.nifeather.fexp.features.shulker.ShulkerListener;
 import xyz.nifeather.fexp.features.trident.TridentSaverListener;
+import xyz.nifeather.fexp.features.xpCooldown.ExpCooldownListener;
 import xyz.nifeather.fexp.messages.FMessageStore;
 import xyz.nifeather.fexp.misc.integrations.coreprotect.CoreProtectIntegration;
 
@@ -86,6 +87,7 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new BeaconListener(), this);
         pluginManager.registerEvents(new ServerLinkListener(), this);
         pluginManager.registerEvents(new CrossbowListener(), this);
+        pluginManager.registerEvents(new ExpCooldownListener(), this);
 
         pvpListener = new PvPListener();
         pluginManager.registerEvents(pvpListener, this);

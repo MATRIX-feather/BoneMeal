@@ -64,6 +64,8 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getToggle("pvp.toggle.enabled", FConfigOptions.PVP_TOGGLE_ENABLED));
 
         subCommands.add(getToggle("torch_crossbow.enabled", FConfigOptions.ALLOW_TORCH_CROSSBOW));
+
+        subCommands.add(getToggle("no_exp_cooldown.enabled", FConfigOptions.NO_EXP_COOLDOWN));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,
