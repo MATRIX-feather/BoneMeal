@@ -85,7 +85,10 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         pluginManager.registerEvents(new MobBucketListener(), this);
         pluginManager.registerEvents(new MinecartListener(), this);
         pluginManager.registerEvents(new BeaconListener(), this);
-        pluginManager.registerEvents(new ServerLinkListener(), this);
+
+        if (enablePacketEvents)
+            pluginManager.registerEvents(new ServerLinkListener(), this);
+
         pluginManager.registerEvents(new CrossbowListener(), this);
         pluginManager.registerEvents(new ExpCooldownListener(), this);
 
