@@ -7,7 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
+import xyz.nifeather.fexp.config.FConfigManager;
+import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.features.pvp.storage.PVPStorage;
 
 import java.util.Collections;
@@ -24,6 +28,14 @@ public class PvPListener extends FPluginObject implements Listener
     {
         storage.initializeStorage();
         noPvpPlayers.addAll(storage.getDisabledPlayers());
+    }
+
+    private final Bindable<Boolean> enabled = new Bindable<>(false);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enabled, FConfigOptions.PVP_TOGGLE_ENABLED);
     }
 
     public PvPStatus toggleFor(Player player)
@@ -58,6 +70,8 @@ public class PvPListener extends FPluginObject implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHurtEntity(EntityDamageByEntityEvent event)
     {
+        if (!enabled.get()) return;
+
         var entity = event.getEntity();
         var damager = event.getDamager();
 

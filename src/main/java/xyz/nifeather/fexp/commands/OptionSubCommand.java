@@ -60,6 +60,10 @@ public class OptionSubCommand extends FPluginObject implements ISubCommand
         subCommands.add(getList("mob_eggs.mob_whitelist", FConfigOptions.EGG_WHITELIST, null));
 
         subCommands.add(getToggle("protocol.component_whitelist", FConfigOptions.COMPONENT_WHITELIST));
+
+        subCommands.add(getToggle("pvp.toggle.enabled", FConfigOptions.PVP_TOGGLE_ENABLED));
+
+        subCommands.add(getToggle("torch_crossbow.enabled", FConfigOptions.ALLOW_TORCH_CROSSBOW));
     }
 
     private <T> ISubCommand getGeneric(String name, ConfigOption<T> option,

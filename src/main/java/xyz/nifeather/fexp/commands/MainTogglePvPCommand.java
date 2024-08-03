@@ -30,6 +30,7 @@ public class MainTogglePvPCommand extends FPluginObject implements IPluginComman
     {
         config.bind(enabledString, FConfigOptions.PVP_ENABLED_MESSAGE);
         config.bind(disabledString, FConfigOptions.PVP_DISABLED_MESSAGE);
+        config.bind(toggleAllowed, FConfigOptions.PVP_TOGGLE_ENABLED);
     }
 
     @Override
@@ -44,12 +45,15 @@ public class MainTogglePvPCommand extends FPluginObject implements IPluginComman
         return null;
     }
 
+    private final Bindable<Boolean> toggleAllowed = new Bindable<>(false);
     private final Bindable<String> enabledString = new Bindable<>("<yellow>missingno");
     private final Bindable<String> disabledString = new Bindable<>("<yellow>missingno");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
     {
+        if (!toggleAllowed.get()) return false;
+
         if (!(sender instanceof Player player))
         {
             sender.sendMessage(Component.text("只有玩家可以执行此指令"));

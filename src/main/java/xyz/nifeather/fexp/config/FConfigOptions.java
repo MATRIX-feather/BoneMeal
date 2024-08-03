@@ -44,10 +44,13 @@ public class FConfigOptions
 
     public static final ConfigOption<Boolean> COMPONENT_WHITELIST = new ConfigOption<>(featureNode().append("protocol").append("component_whitelist"), true);
 
+    public static final ConfigOption<Boolean> PVP_TOGGLE_ENABLED = new ConfigOption<>(featureNode().append("pvp").append("enabled"), true);
     public static final ConfigOption<String> PVP_ENABLED_MESSAGE = new ConfigOption<>(featureNode().append("pvp").append("enabled_message"), "<color:#e0f2f1>PVP已启用</color>");
     public static final ConfigOption<String> PVP_DISABLED_MESSAGE = new ConfigOption<>(featureNode().append("pvp").append("disabled_message"), "<color:#e0f2f1>PVP已禁用</color>");
 
     public static final ConfigOption<List<String>> SERVER_LINKS = new ConfigOption<>(featureNode().append("server_links"), List.of());
+
+    public static final ConfigOption<Boolean> ALLOW_TORCH_CROSSBOW = new ConfigOption<>(featureNode().append("torch_crossbow").append("enabled"), true);
 
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 

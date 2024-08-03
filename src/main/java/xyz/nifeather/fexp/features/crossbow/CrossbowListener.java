@@ -13,15 +13,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CrossbowMeta;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.FPluginObject;
+import xyz.nifeather.fexp.config.FConfigManager;
+import xyz.nifeather.fexp.config.FConfigOptions;
 
 import java.util.List;
 
 public class CrossbowListener extends FPluginObject implements Listener
 {
+    private final Bindable<Boolean> enabled = new Bindable<>(false);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enabled, FConfigOptions.ALLOW_TORCH_CROSSBOW);
+    }
+
     @EventHandler
     public void onCrossbowLoad(EntityLoadCrossbowEvent event)
     {
+        if (!enabled.get()) return;
+
         var entity = event.getEntity();
         var crossbow = event.getCrossbow();
 
@@ -42,6 +56,8 @@ public class CrossbowListener extends FPluginObject implements Listener
     @EventHandler
     public void onProjectileLaunch(EntityShootBowEvent event)
     {
+        if (!enabled.get()) return;
+
         var bow = event.getBow();
         var itemConsumed = event.getConsumable();
 
