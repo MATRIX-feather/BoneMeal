@@ -81,11 +81,13 @@ public class HelpSubCommand extends FPluginObject implements ISubCommand
                 commandSections.add(section);
             }
             else
-                throw new NotImplementedException("Adding misc commands are not supported yet.");
+            {
+                logger.warn("Adding misc commands are not supported yet.");
                 /*miscCommandSection.add(new Entry(c.getPermissionRequirement(),
                         c.getCommandName(),
                         c.getHelpMessage(),
                         "/" + c.getCommandName() + " "));*/
+            }
         }
     }
 
