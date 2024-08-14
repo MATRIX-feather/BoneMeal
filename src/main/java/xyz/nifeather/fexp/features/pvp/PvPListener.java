@@ -13,6 +13,8 @@ import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
 import xyz.nifeather.fexp.features.pvp.storage.PVPStorage;
+import xyz.nifeather.fexp.messages.strings.PVPStrings;
+import xyz.nifeather.fexp.utilities.MessageUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -78,8 +80,17 @@ public class PvPListener extends FPluginObject implements Listener
         if (entity.getType() != EntityType.PLAYER || damager.getType() != EntityType.PLAYER)
             return;
 
-        if (isPlayerDisabledPVP(damager.getUniqueId()) || isPlayerDisabledPVP(entity.getUniqueId()))
+        if (isPlayerDisabledPVP(damager.getUniqueId()))
+        {
+            damager.sendActionBar(MessageUtils.prefixes(damager, PVPStrings.pvpDisabledForDamagerString()));
             event.setCancelled(true);
+        }
+
+        if (isPlayerDisabledPVP(entity.getUniqueId()))
+        {
+            damager.sendActionBar(MessageUtils.prefixes(damager, PVPStrings.pvpDisabledForVictimString()));
+            event.setCancelled(true);
+        }
     }
 
     public void dispose()
