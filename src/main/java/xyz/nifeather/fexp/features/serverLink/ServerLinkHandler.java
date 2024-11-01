@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -77,7 +78,7 @@ public class ServerLinkHandler extends FPluginObject
                     .findFirst().orElse(null);
 
             String customNameString = split.get(1);
-            Component customName = customNameString.equalsIgnoreCase("nil")
+            Component customName = customNameString.equalsIgnoreCase("nil") || customNameString.isBlank()
                     ? null
                     : MiniMessage.miniMessage().deserializeOrNull(customNameString);
 
@@ -85,8 +86,14 @@ public class ServerLinkHandler extends FPluginObject
 
             if (knownType != null && customName != null)
             {
-                logger.warn("Illegal state for link '%s'! Ignoring knownType...".formatted(link));
+                logger.warn("Both DisplayName and KnownType is set for link '%s'! Ignoring KnownType...".formatted(link));
                 knownType = null;
+            }
+
+            if (knownType == null && customName == null)
+            {
+                logger.warn("Both DisplayName and KnownType is not set for link '%s'!".formatted(link));
+                customName = Component.text(link);
             }
 
             links.add(createLink(knownType, customName, link));

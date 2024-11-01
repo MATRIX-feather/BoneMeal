@@ -12,6 +12,7 @@ public class ServerLinkListener extends FPluginObject implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        linkHandler.handlePlayer(event.getPlayer());
+        var player = event.getPlayer();
+        this.scheduleOn(player, () -> linkHandler.handlePlayer(player));
     }
 }

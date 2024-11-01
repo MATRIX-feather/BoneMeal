@@ -62,6 +62,41 @@ root:
     # Note that due to some limitations, players should left-click them rather than right-click like on Bedrock
     fire_aspect_lit_candles: true
 
+    # Should players not have XP cooldown?
+    no_exp_cooldown: true
+
+    # Server links
+    # The format is "<Type Preset>,<Custom Display Name>,<Link>"
+    #
+    # NOTE: The Link must be an HTTP or HTTPS link, or the entry won't appear on the client!
+    #
+    # The Type Preset can be one of the following elements:
+    #  - NIL
+    #  - BUG_REPORT
+    #  - COMMUNITY_GUIDELINES
+    #  - SUPPORT
+    #  - STATUS
+    #  - FEEDBACK
+    #  - COMMUNITY
+    #  - WEBSITE
+    #  - FORUMS
+    #  - NEWS
+    #  - ANNOUNCEMENTS
+    # When used, the client will display a localized string depending on their current language. Except "NIL"
+    # Laving "NIL" will always make the plugin use Custom Display Name.
+    # This isn't compatible with Custom Display Name.
+    #
+    # The Custom Display Name supports MiniMessage
+    # If you wish to not have a custom display name for the link, leave it empty or "NIL" and the KnownType will be used.
+    server_links:
+      - "nil,minecraft.net,https://minecraft.net"
+      - "NEWS,NIL,https://www.minecraft.net/en-us/articles"
+
+    # Protocol options
+    protocol:
+      # Should we only include item components that have visual effects in vanilla?
+      component_whitelist: true
+
     # Turn mobs into spawn eggs when clicked with an egg
     mob_eggs:
       # Enable this feature?
