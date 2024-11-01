@@ -58,6 +58,10 @@ root:
       # Enable this feature?
       enabled: true
 
+    # Can items with Fire Aspect light candles?
+    # Note that due to some limitations, players should left-click them rather than right-click like on Bedrock
+    fire_aspect_lit_candles: true
+
     # Turn mobs into spawn eggs when clicked with an egg
     mob_eggs:
       # Enable this feature?
@@ -104,4 +108,4 @@ root:
         - "minecraft:bedrock=1.5"
 
   # Do not touch unless you know what you're doing!
-  version: 8
+  version: 9

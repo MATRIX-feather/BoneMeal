@@ -54,6 +54,8 @@ public class FConfigOptions
 
     public static final ConfigOption<Boolean> NO_EXP_COOLDOWN = new ConfigOption<>(featureNode().append("no_exp_cooldown").append("enabled"), false);
 
+    public static final ConfigOption<Boolean> ALLOW_FIRE_ASPECT_LIT_CANDLES = new ConfigOption<>(featureNode().append("fire_aspect_lit_candles"), true);
+
     public static final ConfigOption<Integer> VERSION = new ConfigOption<>(ConfigNode.create().append("version"), 0);
 
     public static List<ConfigOption<?>> values()
