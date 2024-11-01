@@ -6,12 +6,12 @@ public class PVPStrings extends AbstractMorphStrings
 {
     public static FormattableMessage pvpDisabledForDamagerString()
     {
-        return getFormattable(getKey("damager_pvp_disabled"), "<red>你已禁用PVP");
+        return getFormattable(getKey("damager_pvp_disabled"), "[Fallback] <red>你已禁用PVP");
     }
 
     public static FormattableMessage pvpDisabledForVictimString()
     {
-        return getFormattable(getKey("victim_pvp_disabled"), "<red>对方已禁用PVP");
+        return getFormattable(getKey("victim_pvp_disabled"), "[Fallback] <red>对方已禁用PVP");
     }
 
     public static String getKey(String key)

@@ -97,6 +97,17 @@ root:
       # Should we only include item components that have visual effects in vanilla?
       component_whitelist: true
 
+    # PvP options
+    pvp:
+      # Should we handle PvP events?
+      enabled: true
+
+      # The message to show when players enable their PvP
+      enabled_message: "<color:#e0f2f1>PVP Enabled</color>"
+
+      # The message to show when players disable their PvP
+      disabled_message: "<color:#e0f2f1>PVP Disabled</color>"
+
     # Turn mobs into spawn eggs when clicked with an egg
     mob_eggs:
       # Enable this feature?

@@ -13,6 +13,9 @@
   "commands.unknown_operation": "未知操作： <operation>",
   "commands.command_not_found": "<color:red>未知指令",
 
+  "pvp.damager_pvp_disabled": "<red>你已禁用PVP",
+  "pvp.victim_pvp_disabled": "<red>对方已禁用PVP",
+
   "types.double": "双精度浮点",
   "types.float": "单精度浮点",
   "types.int": "整数",

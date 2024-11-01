@@ -13,6 +13,9 @@
   "commands.unknown_operation": "Unknown operation: <operation>",
   "commands.command_not_found": "<color:red>Command not found",
 
+  "pvp.damager_pvp_disabled": "<red>Your PvP is disabled",
+  "pvp.victim_pvp_disabled": "<red>They have disabled their PvP",
+
   "types.double": "Double",
   "types.float": "Float",
   "types.int": "Integer",
