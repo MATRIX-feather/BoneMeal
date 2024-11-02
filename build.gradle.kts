@@ -66,7 +66,7 @@ dependencies {
     //compileOnly(files("libs/CMILib1.4.3.5.jar"))
     //compileOnly(files("libs/Residence5.1.4.0.jar"))
 
-    implementation("com.github.retrooper:packetevents-spigot:${project.property("packetevents_version")}")
+    compileOnly("com.github.retrooper:packetevents-spigot:${project.property("packetevents_version")}")
 
     compileOnly("com.palmergames.bukkit.towny:towny:${project.property("towny_version")}")
 
@@ -104,7 +104,7 @@ bukkit {
     main = "xyz.nifeather.fexp.FeatherExperience"
     apiVersion = "1.20"
     authors = listOf("MATRIX-feather")
-    depend = listOf()
+    depend = listOf("packetevents")
     softDepend = listOf()
     version = "${project.property("project_version")}"
     prefix = "FeatherExperience"

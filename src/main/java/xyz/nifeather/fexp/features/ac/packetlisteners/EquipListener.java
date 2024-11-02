@@ -20,6 +20,7 @@ import xiamomc.pluginbase.Bindables.Bindable;
 import xyz.nifeather.fexp.config.FConfigManager;
 import xyz.nifeather.fexp.config.FConfigOptions;
 
+import java.sql.Wrapper;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -55,7 +56,35 @@ public class EquipListener extends AbstractListener
     {
         if (event.getPacketType() != PacketType.Play.Server.ENTITY_EQUIPMENT) return;
 
-        var wrapper = new WrapperPlayServerEntityEquipment(event);
+        if (!enableWhitelist.get()) return;
+
+        try
+        {
+            handle(event);
+        }
+        catch (Throwable t)
+        {
+            logger.warn("Can't handle equipment packet: " + t.getMessage());
+            t.printStackTrace();
+
+            logger.warn("Something may gone wrong after this error, be careful!");
+        }
+    }
+
+    private void handle(PacketSendEvent event)
+    {
+        WrapperPlayServerEntityEquipment wrapper;
+
+        try
+        {
+            wrapper = new WrapperPlayServerEntityEquipment(event);
+        }
+        catch (Throwable t)
+        {
+            logger.warn("Can't read WrapperPlayServerEntityEquipment from protocol, this is a packetevent bug!");
+            return;
+        }
+
         var user = event.getUser();
         var userClientVersion = user.getClientVersion();
 
@@ -63,15 +92,13 @@ public class EquipListener extends AbstractListener
         {
             var item = equipment.getItem();
 
-            if (enableWhitelist.get())
+            var patches = new Object2ObjectArrayMap<>(item.getComponents().getPatches());
+            patches.forEach((type, value) ->
             {
-                var patches = new Object2ObjectArrayMap<>(item.getComponents().getPatches());
-                patches.forEach((type, value) ->
-                {
-                    if (!componentTypeWhiteList.contains(type))
-                        item.unsetComponent(type);
+                if (!componentTypeWhiteList.contains(type))
+                    item.unsetComponent(type);
 
-                    // Do we really need these in a normal survival?
+                // Do we really need these in a normal survival?
                     /*
                     if (type == ComponentTypes.CHARGED_PROJECTILES && value.isPresent())
                     {
@@ -80,8 +107,7 @@ public class EquipListener extends AbstractListener
                         projectiles.getItems().forEach(stack -> stack.setComponents(componentMap));
                     }
                     */
-                });
-            }
+            });
 
             if (item.isEnchanted(userClientVersion))
                 item.setEnchantments(fakeEnchantments, userClientVersion);
