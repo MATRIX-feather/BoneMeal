@@ -53,12 +53,12 @@ public class TridentSaverListener extends FPluginObject implements Listener
         // 如果三叉戟在地上，或者已被移除，则不再更新
         if (trident.isOnGround() || trident.isDead()) return false;
 
+        // 确保半路开启功能时任何处于更新状态的三叉戟都能及时收回
+        if (!tridentEnabled.get()) return true;
+
         // 如果三叉戟在世界高度里，则计划下一轮更新
         if (trident.getLocation().getY() > trident.getWorld().getMinHeight())
            return true;
-
-        // 确保半路开启功能时任何处于更新状态的三叉戟都能及时收回
-        if (!tridentEnabled.get()) return true;
 
         // 尝试获取拥有者
         var ownerUUID = trident.getOwnerUniqueId();
