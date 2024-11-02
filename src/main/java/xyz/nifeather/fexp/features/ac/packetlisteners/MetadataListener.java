@@ -11,15 +11,29 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.jetbrains.annotations.Nullable;
+import xiamomc.pluginbase.Annotations.Initializer;
+import xiamomc.pluginbase.Bindables.Bindable;
+import xyz.nifeather.fexp.config.FConfigManager;
+import xyz.nifeather.fexp.config.FConfigOptions;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class MetadataListener extends AbstractListener
 {
+    private final Bindable<Boolean> enableWhitelist = new Bindable<>(true);
+
+    @Initializer
+    private void load(FConfigManager config)
+    {
+        config.bind(enableWhitelist, FConfigOptions.COMPONENT_WHITELIST);
+    }
+
     @Override
     protected void onPacketSending(PacketSendEvent event)
     {
+        if (!enableWhitelist.get()) return;
+
         if (event.getPacketType() != PacketType.Play.Server.ENTITY_METADATA) return;
 
         var wrapper = new WrapperPlayServerEntityMetadata(event);
