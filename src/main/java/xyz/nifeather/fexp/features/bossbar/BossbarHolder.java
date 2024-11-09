@@ -125,6 +125,9 @@ public class BossbarHolder extends FPluginObject
 
     public synchronized void dispose()
     {
+        wardenBossbarShowAnger.unBindAll();
+        enableBossbar.unBindAll();
+
         var bindingBossbar = this.bindingBossbar.get();
         if (bindingBossbar != null)
         {
@@ -134,9 +137,6 @@ public class BossbarHolder extends FPluginObject
                     audience.hideBossBar(bindingBossbar);
             }
         }
-
-        wardenBossbarShowAnger.unBindAll();
-        enableBossbar.unBindAll();
 
         //Bukkit.getOnlinePlayers().forEach(p -> p.hideBossBar(this.bindingBossbar));
         this.disposed.set(true);
