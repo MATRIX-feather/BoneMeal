@@ -1,4 +1,5 @@
 import groovy.lang.Closure
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 /*
@@ -136,8 +137,10 @@ bukkit {
     }
 }
 
+paperweight.reobfArtifactConfiguration = ReobfArtifactConfiguration.MOJANG_PRODUCTION
+
 tasks.build {
-    dependsOn(tasks.shadowJar, tasks.reobfJar)
+    dependsOn(tasks.shadowJar)
 }
 
 tasks.shadowJar {

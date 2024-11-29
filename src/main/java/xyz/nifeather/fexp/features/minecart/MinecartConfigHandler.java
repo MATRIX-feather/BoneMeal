@@ -4,8 +4,8 @@ import com.google.common.util.concurrent.AtomicDouble;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -43,7 +43,7 @@ public class MinecartConfigHandler extends FPluginObject
     {
         var world = Bukkit.getWorlds().getFirst();
         var serverWorld = ((CraftWorld) world).getHandle();
-        var entity = EntityType.MINECART.create(serverWorld, this::scheduleEntityDiscard, BlockPos.ZERO, MobSpawnType.COMMAND, false, false);
+        var entity = EntityType.MINECART.create(serverWorld, this::scheduleEntityDiscard, BlockPos.ZERO, EntitySpawnReason.COMMAND, false, false);
 
         if (entity != null)
             this.minecartDefaultSpeed.set(entity.maxSpeed);

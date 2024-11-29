@@ -29,7 +29,7 @@ public class CustomCoralFeature extends CoralTreeFeature
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        var optional = BuiltInRegistries.BLOCK.getTag(BlockTags.CORAL_BLOCKS)
+        var optional = BuiltInRegistries.BLOCK.get(BlockTags.CORAL_BLOCKS)
                 .flatMap(b ->
                 {
                     for (Holder<Block> holder : b)

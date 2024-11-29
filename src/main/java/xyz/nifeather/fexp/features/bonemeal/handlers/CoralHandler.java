@@ -75,7 +75,8 @@ public class CoralHandler extends FPluginObject implements IBonemealHandler
         try
         {
             dimensionRegistry = serverLevel.getServer().registryAccess()
-                    .registryOrThrow(Registries.LEVEL_STEM);
+                    .lookup(Registries.LEVEL_STEM)
+                    .orElseThrow();
         }
         catch (Throwable t)
         {
@@ -86,7 +87,7 @@ public class CoralHandler extends FPluginObject implements IBonemealHandler
         if (dimensionRegistry == null) return false;
 
         var key = serverLevel.dimension().location();
-        LevelStem levelStem = dimensionRegistry.get(key);
+        LevelStem levelStem = dimensionRegistry.getValue(key);
 
         if (levelStem == null)
         {
