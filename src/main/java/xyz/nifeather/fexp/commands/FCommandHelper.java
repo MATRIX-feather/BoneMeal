@@ -1,29 +1,33 @@
 package xyz.nifeather.fexp.commands;
 
-import xiamomc.pluginbase.Command.CommandHelper;
-import xiamomc.pluginbase.Command.IPluginCommand;
-import xiamomc.pluginbase.XiaMoJavaPlugin;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.registrar.ReloadableRegistrarEvent;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.jetbrains.annotations.NotNull;
+import xyz.nifeather.fexp.FPluginObject;
 import xyz.nifeather.fexp.FeatherExperience;
+import xyz.nifeather.fexp.commands.brigadier.IConvertibleBrigadier;
 
 import java.util.List;
 
-public class FCommandHelper extends CommandHelper<FeatherExperience>
+public class FCommandHelper extends FPluginObject
 {
-    private final List<IPluginCommand> commands = List.of(
+    private final List<IConvertibleBrigadier> commands = List.of(
             new MainPluginCommand(),
             new MainTogglePvPCommand()
     );
 
-    @Override
-    public List<IPluginCommand> getCommands()
+    public void register(ReloadableRegistrarEvent<@NotNull Commands> event)
     {
-        return commands;
+        var registrar = event.registrar();
+
+        for (var brigadierConvertable : commands)
+            brigadierConvertable.register(registrar);
     }
 
-    @Override
-    protected XiaMoJavaPlugin getPlugin()
+    public List<IConvertibleBrigadier> children()
     {
-        return FeatherExperience.getInstance();
+        return new ObjectArrayList<>(commands);
     }
 
     @Override

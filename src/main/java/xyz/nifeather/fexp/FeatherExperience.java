@@ -2,9 +2,9 @@ package xyz.nifeather.fexp;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import xiamomc.pluginbase.Command.CommandHelper;
 import xiamomc.pluginbase.Messages.MessageStore;
 import xiamomc.pluginbase.XiaMoJavaPlugin;
 import xyz.nifeather.fexp.commands.FCommandHelper;
@@ -55,12 +55,22 @@ public final class FeatherExperience extends XiaMoJavaPlugin
     private Metrics metrics;
     private PvPListener pvpListener;
 
-    private static final boolean enablePacketEvents = true;
+    private static boolean enablePacketEvents = true;
 
     @Override
     public void onLoad()
     {
         super.onLoad();
+
+        try
+        {
+            PacketEvents.getAPI();
+        }
+        catch (Throwable t)
+        {
+            logger.info("No packetevents detected, won't enabling related features.");
+            enablePacketEvents = false;
+        }
 
         if (enablePacketEvents)
         {
@@ -102,11 +112,15 @@ public final class FeatherExperience extends XiaMoJavaPlugin
         softDeps.setHandle("Towny", pl -> MobBucketListener.townyInstalled = true, true);
 
         dependencyManager.cache(new FConfigManager(this));
+        dependencyManager.cacheAs(MessageStore.class, new FMessageStore());
 
         var cmdHelper = new FCommandHelper();
         dependencyManager.cache(cmdHelper);
-        dependencyManager.cacheAs(CommandHelper.class, cmdHelper);
-        dependencyManager.cacheAs(MessageStore.class, new FMessageStore());
+
+        // Commands
+        var lifecycleManager = this.getLifecycleManager();
+        lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS, event ->
+                cmdHelper.register(event));
 
         this.metrics = new Metrics(this, 21211);
 

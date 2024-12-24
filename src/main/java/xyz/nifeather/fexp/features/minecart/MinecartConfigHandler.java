@@ -45,10 +45,20 @@ public class MinecartConfigHandler extends FPluginObject
         var serverWorld = ((CraftWorld) world).getHandle();
         var entity = EntityType.MINECART.create(serverWorld, this::scheduleEntityDiscard, BlockPos.ZERO, EntitySpawnReason.COMMAND, false, false);
 
-        if (entity != null)
-            this.minecartDefaultSpeed.set(entity.maxSpeed);
-        else
-            logger.warn("Can't get default max speed for minecart, using 0.4...");
+        // todo: Refactor this
+
+        try
+        {
+            if (entity != null)
+                this.minecartDefaultSpeed.set(entity.maxSpeed);
+            else
+                logger.warn("Can't get default max speed for minecart, using 0.4...");
+        }
+        catch (Throwable t)
+        {
+            logger.warn("Can't get default max speed for minecart, using 0.4: " + t.getMessage());
+            t.printStackTrace();
+        }
     }
 
     private void scheduleEntityDiscard(Entity nmsEntity)
